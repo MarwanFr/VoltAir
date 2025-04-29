@@ -1,0 +1,63 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Voltair_Uninstall.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" 
+        MinWidth="300" MinHeight="200"
+        Width="300" Height="200"
+        x:Class="Voltair_Uninstall.Views.MainWindow"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/TaskbarLogo.png"
+        Background="{DynamicResource BgBlur}"
+        ExtendClientAreaToDecorationsHint="True"
+        SystemDecorations="None">
+
+    <Grid RowDefinitions="40,*">
+        <Border Grid.Row="0" Background="Transparent" PointerPressed="OnPointerPressed">
+            <!-- TitleBar -->
+            <Grid HorizontalAlignment="Stretch"
+                  Background="Transparent"
+                  PointerPressed="OnPointerPressed">
+                <TextBlock Text="VoltAir" VerticalAlignment="Center" FontSize="12" Margin="10, 4, 0, 0"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Classes="TitleBarButton"
+                            Content="&#xe921;"
+                            Click="MinimizeWindow"/>
+
+                    <Button x:Name="MaximizeButton"
+                            Classes="TitleBarButton"
+                            Content="&#xe922;"
+                            Click="ToggleMaximizeWindow"/>
+
+                    <Button Classes="TitleBarButton Close"
+                            Content="&#xe8bb;"
+                            Click="CloseWindow"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Grid Grid.Row="1" RowDefinitions="*,Auto" Margin="10">
+        <TextBlock x:Name="StatusText" 
+                   Text="Uninstall Voltair?" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   TextWrapping="Wrap"
+                   FontSize="14"
+                   FontWeight="300"/>
+        
+        <ProgressBar x:Name="UninstallProgress" 
+                     Grid.Row="1"
+                     IsIndeterminate="True"
+                     Height="20"
+                     Margin="0,10"
+                     IsVisible="False"/>
+        
+        <Grid Grid.Row="1" ColumnDefinitions="*, 10, *" HorizontalAlignment="Stretch">
+            <Button x:Name="NoButton" Classes="Secondary" Content="No"
+                    Click="NoButton_Click" HorizontalAlignment="Stretch"/>
+            <Button Grid.Column="2" x:Name="YesButton" Classes="Primary" Content="Yes" 
+                    Click="YesButton_Click" HorizontalAlignment="Stretch"/>
+        </Grid>
+    </Grid>
+    </Grid>
+</Window>

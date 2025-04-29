@@ -1,0 +1,34 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="VoltAir.Views.Pages.SettingsView.P3">
+    <ScrollViewer Margin="0,0,10,0">
+        <StackPanel>
+            <TextBlock Margin="0,0,0,20" FontSize="20" FontWeight="Bold">Need Help?</TextBlock>
+            <SelectableTextBlock xml:space="preserve" FontWeight="Normal" TextWrapping="Wrap" FontSize="13">We are here to support you!
+
+If you encounter any difficulties while using our application, several resources are available to assist you quickly and effectively.
+
+1. Our Official Website
+You can visit our website, where you will find a wealth of useful information, guides, usage tips, and the latest news about our application. We recommend checking our site regularly to stay updated on all new features and updates.
+
+2. Access the Complete Documentation
+For more technical or detailed help, feel free to consult our official documentation. It provides step-by-step explanations, detailed tutorials, and answers to frequently asked questions. Whether you are a beginner or an experienced user, the documentation is designed to guide you through every step.
+
+3. Contact Us Directly
+If you cannot find the answer to your question or need personalized assistance, we invite you to contact us. Through the Contact section on our website, you can send us an email directly. Our support team is available and will do their best to respond to you as quickly as possible.
+
+How to Access These Resources?
+    - Click the link to our official website to be redirected automatically.
+    - Consult the documentation for detailed instructions tailored to your needs.
+    - Use the Contact section to send us an email and receive personalized assistance.
+
+Thank you for your trust. We are always here to help and listen to your feedback.
+Your satisfaction is our top priority!
+    </SelectableTextBlock>
+            <Button Click="Website_OnClick" Margin="0,10,0,0" HorizontalAlignment="Left" Classes="Primary">Visit Our Website</Button>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

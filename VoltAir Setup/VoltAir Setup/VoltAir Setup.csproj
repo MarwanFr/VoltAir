@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+
+        <!-- Ajouts pour publication self-contained -->
+        <SelfContained>true</SelfContained>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <Configuration>Debug</Configuration>
+        <PublishTrimmed>false</PublishTrimmed>
+        <ApplicationIcon>TaskbarLogo.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="Models\"/>
+        <AvaloniaResource Include="Assets\**"/>
+        <Folder Include="Resources\" />
+        <Folder Include="Resources\Files\" />
+        <None Remove="TaskbarLogo.ico" />
+        <AvaloniaResource Include="TaskbarLogo.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.2.1"/>
+        <PackageReference Include="Avalonia.Desktop" Version="11.2.1"/>
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.1"/>
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.1"/>
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.2.1">
+            <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+            <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1"/>
+        <PackageReference Include="Supabase" Version="1.1.1" />
+        <PackageReference Include="System.Management" Version="10.0.0-preview.3.25171.5" />
+        <PackageReference Include="Avalonia.Themes.Simple" Version="11.2.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update=".env">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Files\install.zip" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\Files\uninstall.exe" />
+      <None Remove="Resources\Files\install.zip" />
+    </ItemGroup>
+</Project>

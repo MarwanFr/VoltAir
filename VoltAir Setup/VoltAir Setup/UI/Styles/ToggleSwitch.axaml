@@ -1,0 +1,103 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <Thickness x:Key="ToggleSwitchTopHeaderMargin">0,0,0,6</Thickness>
+        <GridLength x:Key="ToggleSwitchPreContentMargin">6</GridLength>
+        <GridLength x:Key="ToggleSwitchPostContentMargin">6</GridLength>
+        <x:Double x:Key="ToggleSwitchThemeMinWidth">0</x:Double>
+    </Styles.Resources>
+    
+    <Style Selector="ToggleSwitch">
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}" />
+        <Setter Property="RenderTransform">
+            <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+        </Setter>
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid Width="44" 
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center"
+                      Margin="2,0,0,0">
+
+                    <Border x:Name="SwitchActiveBackground"
+                            Width="35"
+                            Height="20"
+                            Background="{DynamicResource Primary}"
+                            BorderThickness="0"
+                            CornerRadius="15">
+                        <Border.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
+                            </Transitions>
+                        </Border.Transitions>
+                    </Border>
+                    
+                    <Border x:Name="SwitchBackground"
+                            Width="35" 
+                            Height="20"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            CornerRadius="15">
+                        <Border.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
+                                <BrushTransition Property="Background" Duration="0:0:0.15" />
+                            </Transitions>
+                        </Border.Transitions>
+                    </Border>
+
+                    <Canvas x:Name="PART_SwitchKnob"
+                            Width="20"
+                            Height="20"
+                            HorizontalAlignment="Left">
+                        <Border x:Name="SwitchKnob"
+                                Canvas.Left="2"
+                                Canvas.Top="2"
+                                Width="16"
+                                Height="16"
+                                CornerRadius="15">
+                            <Border.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Canvas.Left" Duration="0:0:0.45">
+                                        <DoubleTransition.Easing>
+                                            <QuarticEaseOut />
+                                        </DoubleTransition.Easing>
+                                    </DoubleTransition>
+                                </Transitions>
+                            </Border.Transitions>
+                        </Border>
+                        <Grid x:Name="PART_MovingKnobs"></Grid>
+                    </Canvas>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="ToggleSwitch /template/ Border#SwitchKnob">
+        <Setter Property="Background" Value="#fcfcfc" />
+    </Style>
+    
+    <Style Selector="ToggleSwitch:unchecked /template/ Border#SwitchKnob">
+        <Setter Property="Canvas.Left" Value="6" />
+    </Style>
+    
+    <Style Selector="ToggleSwitch:unchecked /template/ Border#SwitchActiveBackground">
+        <Setter Property="Opacity" Value="0" />
+    </Style>
+    
+    <Style Selector="ToggleSwitch:unchecked /template/ Border#SwitchBackground">
+        <Setter Property="Background" Value="{DynamicResource OffToggleSwitch}" />
+    </Style>
+
+    <Style Selector="ToggleSwitch:checked /template/ Border#SwitchKnob">
+        <Setter Property="Canvas.Left" Value="21" />
+    </Style>
+    
+    <Style Selector="ToggleSwitch:checked /template/ Border#SwitchActiveBackground">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+</Styles>

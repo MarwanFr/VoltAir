@@ -1,0 +1,179 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Button TitleBar -->
+    <Style Selector="Button.TitleBarButton">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="FontFamily" Value="Segoe Fluent Icons"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+    <Style Selector="Button.TitleBarButton:pointerover">
+        <Setter Property="Background" Value="{DynamicResource TitleBarButtonHover}"/>
+    </Style>
+    <Style Selector="Button.TitleBarButton:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource TitleBarButtonPressed}"/>
+    </Style>
+    <Style Selector="Button.TitleBarButton.Close:pointerover">
+        <Setter Property="Background" Value="{DynamicResource TitleBarCloseButtonHover}"/>
+    </Style>
+    <Style Selector="Button.TitleBarButton.Close:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource TitleBarCloseButtonPressed}"/>
+    </Style>
+    
+    <!-- Button Primary -->
+    <Style Selector="Button.Primary">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="{DynamicResource Primary}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="FontWeight" Value="300"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        CornerRadius="5">
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}"/>
+                    <Border.Transitions>
+                        <Transitions>
+                            <BrushTransition Duration="0:0:0.1" Property="Background" />
+                        </Transitions>
+                    </Border.Transitions>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Primary:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ButtonHover}"/>
+    </Style>
+    <Style Selector="Button.Primary:pressed">
+        <Setter Property="Background" Value="{DynamicResource ButtonPressed}"/>
+    </Style>
+    
+    <Style Selector="Button.Primary.Mid">
+        <Setter Property="FontSize" Value="13"/>
+    </Style>
+    
+    <!-- Button Secondary -->
+    <Style Selector="Button.Secondary">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        <Setter Property="BorderThickness" Value="0.5"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonSecondaryBorder}"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="FontWeight" Value="300"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        CornerRadius="5">
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}"/>
+                    <Border.Transitions>
+                        <Transitions>
+                            <BrushTransition Duration="0:0:0.1" Property="Background" />
+                        </Transitions>
+                    </Border.Transitions>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Secondary:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ButtonSecondaryBgHover}"/>
+    </Style>
+    <Style Selector="Button.Secondary:pressed">
+        <Setter Property="Background" Value="{DynamicResource ButtonSecondaryBgPressed}"/>
+    </Style>
+    
+    <!-- Button Alert -->
+    <Style Selector="Button.Alert">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonAlertBg}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="FontWeight" Value="300"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        CornerRadius="5">
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}"/>
+                    <Border.Transitions>
+                        <Transitions>
+                            <BrushTransition Duration="0:0:0.1" Property="Background" />
+                        </Transitions>
+                    </Border.Transitions>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Alert:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ButtonAlertHover}"/>
+    </Style>
+    <Style Selector="Button.Alert:pressed">
+        <Setter Property="Background" Value="{DynamicResource ButtonAlertPressed}"/>
+    </Style>
+    
+    <Style Selector="Button.Alert.Mid">
+        <Setter Property="FontSize" Value="13"/>
+    </Style>
+    
+    <!-- Button WinIoT -->
+    <Style Selector="Button.WinIoT">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="FontWeight" Value="400"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        CornerRadius="5">
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}"/>
+                    <Border.Transitions>
+                        <Transitions>
+                            <BrushTransition Duration="0:0:0.1" Property="Background" />
+                        </Transitions>
+                    </Border.Transitions>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="Button.WinIoT:pointerover">
+        <Setter Property="Background" Value="rgba(255, 255, 255, 0.9)"/>
+    </Style>
+    <Style Selector="Button.WinIoT:pressed">
+        <Setter Property="Background" Value="rgba(255, 255, 255, 0.85)"/>
+    </Style>
+</Styles>

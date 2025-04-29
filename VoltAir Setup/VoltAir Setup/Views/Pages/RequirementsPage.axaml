@@ -1,0 +1,112 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="VoltAir_Setup.Views.Pages.RequirementsPage">
+    <ScrollViewer>
+            <Grid Margin="10" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!-- Title Row -->
+                    <RowDefinition Height="Auto"/> <!-- Current Step Row -->
+                    <RowDefinition Height="Auto"/> <!-- Progress Bar Row -->
+                    <RowDefinition Height="Auto"/> <!-- Progress Text Row -->
+                    <RowDefinition Height="*"/> <!-- Log Area Row (Flexible) -->
+                    <RowDefinition Height="Auto"/> <!-- Button Row -->
+                </Grid.RowDefinitions>
+
+                <!-- Logo and title -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" HorizontalAlignment="Center" Margin="0,0,0,5">
+                    <TextBlock Text="Configuration requise" FontSize="16" FontWeight="500"/>
+                </StackPanel>
+
+                <!-- Current step -->
+                <TextBlock x:Name="CurrentStep" Grid.Row="1"
+                           Text="Vérification des prérequis..."
+                           FontSize="13" FontWeight="300"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,15"/>
+
+                <Grid Grid.Row="3" Grid.ColumnDefinitions="*, 5, Auto" Margin="0,0,0,10">
+                    <!-- Progress bar -->
+                    <ProgressBar x:Name="ProgressBar" HorizontalAlignment="Stretch"
+                                 Value="0" Maximum="100"/>
+
+                    <!-- Percentage -->
+                    <TextBlock x:Name="ProgressText"
+                               Text="0%"
+                               Grid.Column="2"
+                               FontSize="12"
+                               FontWeight="300"
+                               HorizontalAlignment="Center"/>
+                </Grid>
+
+                <!-- Installation log -->
+                <Border Grid.Row="4"
+                        BorderBrush="{DynamicResource LogsBorder}" BorderThickness="0.5"
+                        CornerRadius="5" Margin="0,0,0,15"
+                        MinHeight="150">
+                    <ScrollViewer x:Name="LogScroller" VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="LogText"
+                                   Padding="10"
+                                   TextWrapping="Wrap"
+                                   FontFamily="Consolas, Monospace"
+                                   FontSize="12"/>
+                    </ScrollViewer>
+                </Border>
+
+                <!-- Buttons -->
+                <Grid Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Error or success message -->
+                    <TextBlock x:Name="StatusMessage"
+                               Grid.Column="0"
+                               FontWeight="300"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap"/>
+
+                    <!-- Install .NET Button -->
+                    <Button x:Name="InstallDotNetButton"
+                            Grid.Column="1"
+                            Content="Installer .NET 9.0"
+                            Padding="20,8"
+                            Margin="5,0"
+                            Click="InstallDotNetButton_Click"
+                            Classes="Primary"
+                            IsVisible="False"/>
+
+                    <!-- Install Font Button -->
+                    <Button x:Name="InstallFontButton"
+                            Grid.Column="2"
+                            Content="Installer la police"
+                            Padding="20,8"
+                            Margin="5,0"
+                            Click="InstallFontButton_Click"
+                            Classes="Primary"
+                            IsVisible="False"/>
+
+                    <!-- Back Button -->
+                    <Button x:Name="BackButton"
+                            Content="Retour"
+                            Grid.Column="3"
+                            Padding="20,8"
+                            Margin="5,0"
+                            Classes="Secondary"
+                            Click="OnBackClicked"/>
+                    
+                    <!-- Next Button -->
+                    <Button x:Name="NextButton"
+                            Content="Suivant"
+                            Grid.Column="3"
+                            Padding="20,8"
+                            Margin="5,0"
+                            Classes="Primary"
+                            Click="OnNextClicked"
+                            IsVisible="False"/>
+                </Grid>
+            </Grid>
+    </ScrollViewer>
+</UserControl>

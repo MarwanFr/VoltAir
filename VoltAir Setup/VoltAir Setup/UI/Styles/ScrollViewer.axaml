@@ -1,0 +1,37 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="ScrollViewer /template/ ScrollBar[Orientation=Vertical]">
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="MinWidth" Value="4" />
+        <Setter Property="Width" Value="4" />
+        <Setter Property="Margin" Value="4,0,6,4" />
+    </Style>
+    <Style Selector="ScrollViewer /template/ ScrollBar[Orientation=Vertical] /template/ Border">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="15" />
+    </Style>
+    <Style Selector="ScrollViewer RepeatButton">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style
+        Selector="ScrollViewer /template/ ScrollBar[Orientation=Vertical] Thumb /template/ Border">
+        <Setter Property="Background"
+                Value="{DynamicResource Foreground}" />
+        <Setter Property="CornerRadius" Value="15" />
+        <Setter Property="Width" Value="4" />
+        <Setter Property="MinWidth" Value="0" />
+    </Style>
+    <Style
+        Selector="ScrollViewer /template/ ScrollBar[Orientation=Vertical] Thumb:pointerover /template/ Border">
+        <Setter Property="Background"
+                Value="{DynamicResource Foreground}" />
+        <Setter Property="Opacity"
+                Value="0.6" />
+    </Style>
+    <Style Selector="ScrollViewer /template/ ScrollBar[Orientation=Vertical] Thumb:pressed /template/ Border">
+        <Setter Property="Background"
+                Value="{DynamicResource Foreground}" />
+        <Setter Property="Opacity"
+                Value="0.6" />
+    </Style>
+</Styles>

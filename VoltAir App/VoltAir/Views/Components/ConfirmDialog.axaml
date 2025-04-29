@@ -1,0 +1,61 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="VoltAir.Views.Components.ConfirmDialog">
+    
+    <UserControl.Transitions>
+        <Transitions>
+            <DoubleTransition Property="Opacity" Duration="0:0:0.3" />
+        </Transitions>
+    </UserControl.Transitions>
+    
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="rgba(255,255,255,0)">
+        <Border x:Name="PopupBorder"
+                Width="400"
+                Padding="20"
+                CornerRadius="12"
+                BoxShadow="0 20 40 0 #99000000"
+                Background="{DynamicResource BgBlur}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Classes="Cards"
+                BorderBrush="{DynamicResource CardBorder}"
+                BorderThickness="0.5">
+            <StackPanel Spacing="15">
+                <TextBlock x:Name="ConfirmText"
+                           Text="Are you sure?"
+                           FontSize="18"
+                           FontWeight="500"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock x:Name="DescriptionText"
+                           Text=""
+                           FontSize="13"
+                           FontWeight="300"
+                           TextWrapping="Wrap"
+                           TextAlignment="Left"
+                           Margin="0,0,0,5"
+                           IsVisible="False"/>
+                           
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                    <Button Content="Cancel"
+                            Classes="Secondary"
+                            MinWidth="100"
+                            Click="OnCancelClick"/>
+                    <Button Content="Confirm"
+                            Classes="Alert"
+                            MinWidth="100"
+                            Click="OnConfirmClick"/>
+                </StackPanel>
+            </StackPanel>
+            
+            <Border.Transitions>
+                <Transitions>
+                    <!-- RenderTransform Transition -->
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
+                </Transitions>
+            </Border.Transitions>
+        </Border>
+    </Grid>
+</UserControl>

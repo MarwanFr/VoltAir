@@ -1,0 +1,114 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="VoltAir.Views.Pages.SettingsView.P4">
+    <UserControl.Styles>
+        <Style Selector="SelectableTextBlock">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style Selector="SelectableTextBlock.Title">
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="FontWeight" Value="600" />
+            <Setter Property="Margin" Value="0,15,0,5" />
+        </Style>
+        <Style Selector="SelectableTextBlock.Text">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="300" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style Selector="StackPanel.Section">
+            <Setter Property="Spacing" Value="4" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+    </UserControl.Styles>
+
+    <ScrollViewer>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+            <SelectableTextBlock FontSize="20" FontWeight="Bold" Margin="0,0,0,20">
+                Legal Notice &amp; Terms of Use
+            </SelectableTextBlock>
+
+            <StackPanel Classes="Section">
+                <SelectableTextBlock Classes="Title">1. Overview</SelectableTextBlock>
+                <SelectableTextBlock Classes="Text" xml:space="preserve">This application (hereinafter referred to as “the Application”) was designed, developed, and published by:
+
+Marwan B.
+and
+Furkan A.
+
+(collectively referred to as “the Authors”).
+
+The Application is the result of a collaborative effort, created with the aim of delivering a reliable, innovative, and accessible solution for all users. It is provided free of charge and under an open source license, in accordance with the principles of free software.</SelectableTextBlock>
+            </StackPanel>
+
+            <StackPanel Classes="Section">
+                <SelectableTextBlock Classes="Title">2. Purpose and Scope</SelectableTextBlock>
+                <SelectableTextBlock Classes="Text" xml:space="preserve">These Terms of Use are intended to define the conditions under which the Application may be used, modified, redistributed, or incorporated into other software projects.
+
+They apply to any user, contributor, developer, or third-party entity accessing, downloading, or interacting with any part of the Application or its source code.</SelectableTextBlock>
+            </StackPanel>
+
+            <StackPanel Classes="Section">
+                <SelectableTextBlock Classes="Title">3. Terms of Use</SelectableTextBlock>
+                <SelectableTextBlock Classes="Text" xml:space="preserve">By accessing or using the Application, you explicitly agree to the following terms:
+
+    • Use of the Application is permitted strictly for legal purposes, including personal, educational, experimental, professional, or community use.
+
+    • The Application must not be used for any fraudulent, malicious, or unlawful purposes.
+
+    • Users are prohibited from using the Application to harm others, interfere with information systems, or violate personal privacy.
+
+    • Users must not remove or alter copyright notices, license terms, or attribution elements within the source code or interface.</SelectableTextBlock>
+            </StackPanel>
+
+            <StackPanel Classes="Section">
+                <SelectableTextBlock Classes="Title">4. License and Open Source Status</SelectableTextBlock>
+                <SelectableTextBlock Classes="Text" xml:space="preserve">The Application is released under a Free Use and Redistribution License with Reciprocity Requirement, inspired by the principles of the GNU General Public License v3.0 (GPL-3.0).
+
+Under this license:
+
+    • You are free to view, use, run, modify, distribute, or incorporate the source code into other projects, provided that the following conditions are met:
+
+    • Any redistribution—whether of the original or a modified version—must also be made available under a compatible open source license, ensuring continued public access.
+
+    • You must clearly credit the original Authors, namely Marwan B. and Furkan A., in any derivative work’s documentation, interface, or metadata.
+
+    • Original license files and author attributions must not be removed.
+
+    • If you distribute a modified or integrated version, the complete source code of your version must also be made publicly available under the same licensing terms.
+
+Reciprocity Clause:
+If you use any part of this code, you are legally obligated to publish your own project under an open source license as well, with the same level of openness and attribution.</SelectableTextBlock>
+            </StackPanel>
+
+            <StackPanel Classes="Section">
+                <SelectableTextBlock Classes="Title">5. Disclaimer of Liability</SelectableTextBlock>
+                <SelectableTextBlock Classes="Text">The Application is provided "as is", with no warranty of any kind. The Authors are not responsible for any damage, loss, or consequence arising from the use or inability to use the Application. You use the Application at your own risk.</SelectableTextBlock>
+            </StackPanel>
+
+            <StackPanel Classes="Section">
+                <SelectableTextBlock Classes="Title">6. Attribution</SelectableTextBlock>
+                <SelectableTextBlock Classes="Text" xml:space="preserve">All use or redistribution of the Application, including modifications, must clearly credit the original authors:
+
+"Developed by Marwan B. and Furkan A. – Original open source project"
+
+This credit must be visible in any user interface, documentation, or README of the derived project.</SelectableTextBlock>
+            </StackPanel>
+
+            <StackPanel Classes="Section">
+                <SelectableTextBlock Classes="Title">7. Modifications and Updates</SelectableTextBlock>
+                <SelectableTextBlock Classes="Text">The Authors reserve the right to modify these terms at any time. Users are encouraged to check for updates regularly in the official repository or documentation.</SelectableTextBlock>
+            </StackPanel>
+
+            <StackPanel Classes="Section">
+                <SelectableTextBlock Classes="Title">8. Jurisdiction and Governing Law</SelectableTextBlock>
+                <SelectableTextBlock Classes="Text">These terms are governed by French law. Any legal dispute regarding the interpretation or execution of these terms shall fall under the jurisdiction of the courts of the Authors’ area of residence.</SelectableTextBlock>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

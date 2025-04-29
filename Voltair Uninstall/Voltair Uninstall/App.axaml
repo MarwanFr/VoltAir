@@ -1,0 +1,35 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Voltair_Uninstall.App"
+             xmlns:local="using:Voltair_Uninstall"
+             RequestedThemeVariant="Default">
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+  
+    <Application.Styles>
+        <SimpleTheme />
+        
+        <StyleInclude Source="UI/Styles/Buttons.axaml"/>
+        <StyleInclude Source="UI/Styles/CheckBox.axaml"/>
+        <StyleInclude Source="UI/Styles/ComboBox.axaml"/>
+        <StyleInclude Source="UI/Styles/ScrollViewer.axaml"/>
+        <StyleInclude Source="UI/Styles/ToggleButtons.axaml"/>
+        <StyleInclude Source="UI/Styles/ToggleSwitch.axaml"/>
+        <StyleInclude Source="UI/Styles/Cards.axaml"/>
+        <StyleInclude Source="UI/Styles/ProgressBar.axaml"/>
+    </Application.Styles>
+             
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <!-- Light Theme -->
+                <ResourceInclude Source="UI/ColorTheme/Light.axaml" x:Key="Light"/>
+                <!-- Dark Theme -->
+                <ResourceInclude Source="UI/ColorTheme/Dark.axaml" x:Key="Dark"/>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>

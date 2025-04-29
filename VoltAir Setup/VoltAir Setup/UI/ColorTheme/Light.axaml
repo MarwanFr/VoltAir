@@ -1,0 +1,75 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Colors Primary -->
+    <Color x:Key="Primary">#5863F8</Color>
+    <Color x:Key="Foreground">#1A1A1A</Color>
+    
+    <!-- Color Secondary -->
+    <Color x:Key="TxtSecondary">#757575</Color>
+    
+    <!-- TitleBar -->
+    <Color x:Key="TitleBarButtonHover">#EFEFEF</Color>
+    <Color x:Key="TitleBarButtonPressed">#E0E0E0</Color>
+    <Color x:Key="TitleBarCloseButtonHover">#FF3236</Color>
+    <Color x:Key="TitleBarCloseButtonPressed">#E22326</Color>
+    
+    <!-- Background -->
+    <Color x:Key="BgBlur">#F5F5F7</Color>
+    
+    <!-- NavBar Background -->
+    <Color x:Key="NavBarBackground">#5863F8</Color>
+    <Color x:Key="NavBarBorder">#5F95FF</Color>
+    
+    <!-- NavBar ToggleButton -->
+    <Color x:Key="NavBarToggleButtonBg">Transparent</Color>
+    <Color x:Key="NavBarToggleButtonBgHover">#6973FF</Color> 
+    <Color x:Key="NavBarToggleButtonBgPressed">#707AFF</Color>
+    <Color x:Key="NavBarToggleButtonBgChecked">#707AFF</Color>
+    
+    <!-- Card -->
+    <Color x:Key="CardBackground">#FFFFFF</Color>
+    <Color x:Key="CardBorder">#DEDEDE</Color>
+    <Color x:Key="BgSupCards">#F0F0F5</Color>
+    
+    <!-- Day Badge -->
+    <Color x:Key="DayBackground">#F0F0F0</Color>
+    
+    <!-- Button Primary -->
+    <Color x:Key="ButtonHover">#626CFC</Color>
+    <Color x:Key="ButtonPressed">#6872FE</Color>
+    
+    <!-- Button Alert -->
+    <Color x:Key="ButtonAlertBg">#FC3D40</Color>
+    <Color x:Key="ButtonAlertHover">#FF3236</Color>
+    <Color x:Key="ButtonAlertPressed">#E22326</Color>
+    
+    <!-- Button Secondary -->
+    <Color x:Key="ButtonSecondaryBorder">#CCCCCC</Color>
+    <Color x:Key="ButtonSecondaryBgHover">#F0F0F0</Color>
+    <Color x:Key="ButtonSecondaryBgPressed">#E5E5E5</Color>
+    
+    <!-- Progress -->
+    <Color x:Key="BackgroundProgress">#EDEDED</Color>
+    <Color x:Key="ForegroundProgress">#5863F8</Color>
+    
+    <!-- Colors -->
+    <Color x:Key="Green">#17B559</Color>
+    
+    <!-- Badge -->
+    <Color x:Key="GreenBorderBadge">#1DD76A</Color>
+    <Color x:Key="GreenBadge">#E8F9EF</Color>
+    
+    <!-- ToggleSwitch -->
+    <Color x:Key="OffToggleSwitch">#EDEDED</Color>
+    
+    <!-- ComboBox -->
+    <Color x:Key="ComboBorder">#DEDEDE</Color>
+    <Color x:Key="ComboPlaceholder">#888888</Color>
+    <Color x:Key="ComboIconStroke">#6E6E6E</Color>
+    <Color x:Key="ComboDropdownBg">#FFFFFF</Color>
+    <Color x:Key="ComboItemHoverBg">#F0F0F5</Color>
+    <BoxShadows x:Key="ComboDropdownShadow">0 4 12 0 #20000000</BoxShadows>
+    
+    <!-- Logs -->
+    <Color x:Key="LogsBorder">#C0C0C0</Color>
+</ResourceDictionary>

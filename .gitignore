@@ -1,0 +1,12 @@
+# Rider/IDE
+.idea/
+riderModule.iml
+_ReSharper.Caches/
+
+# build .NET or Avalonia
+bin/
+obj/
+packages/
+
+.env
+*.env

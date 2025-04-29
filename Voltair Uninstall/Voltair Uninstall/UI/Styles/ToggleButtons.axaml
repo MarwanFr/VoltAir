@@ -1,0 +1,80 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- ToggleButton NavBar -->
+    <Style Selector="ToggleButton.NavToggleButton">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Background" Value="{DynamicResource NavBarBackground}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        CornerRadius="5">
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}"/>
+                    <Border.Transitions>
+                        <Transitions>
+                            <BrushTransition Duration="0:0:0.1" Property="Background" />
+                        </Transitions>
+                    </Border.Transitions>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="ToggleButton.NavToggleButton:pointerover">
+        <Setter Property="Background" Value="{DynamicResource NavBarToggleButtonBgHover}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style Selector="ToggleButton.NavToggleButton:pressed">
+        <Setter Property="Background" Value="{DynamicResource NavBarToggleButtonBgPressed}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style Selector="ToggleButton.NavToggleButton:checked">
+        <Setter Property="Background" Value="{DynamicResource NavBarToggleButtonBgChecked}"/>
+    </Style>
+    
+        <!-- ToggleButton NavBar -->
+    <Style Selector="ToggleButton.NavToggleButtonSettings">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Background" Value="#333333"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        CornerRadius="5">
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}"/>
+                    <Border.Transitions>
+                        <Transitions>
+                            <BrushTransition Duration="0:0:0.1" Property="Background" />
+                        </Transitions>
+                    </Border.Transitions>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="ToggleButton.NavToggleButtonSettings:pointerover">
+        <Setter Property="Background" Value="#3C3C3C"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style Selector="ToggleButton.NavToggleButtonSettings:pressed">
+        <Setter Property="Background" Value="#434343"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style Selector="ToggleButton.NavToggleButtonSettings:checked">
+        <Setter Property="Background" Value="#444444"/>
+    </Style>
+</Styles>

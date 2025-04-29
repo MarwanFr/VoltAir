@@ -1,0 +1,66 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:VoltAir_Setup.Views.Pages"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
+             x:Class="VoltAir_Setup.Views.Pages.InstallationPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="20">
+            <TextBlock Text="VoltAir Setup" FontSize="16" FontWeight="500" Margin="0,0,0,5"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Install VoltAir software on your system" HorizontalAlignment="Center"
+                       FontWeight="300" FontSize="13"/>
+        </StackPanel>
+        
+        <!-- Main Content -->
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Installation Options -->
+            <StackPanel Grid.Row="0" Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <CheckBox x:Name="desktopShortcutCheck" Content="Create Desktop Shortcut" IsChecked="True"/>
+                <CheckBox x:Name="startMenuCheck" Content="Create Start Menu Shortcut" IsChecked="True"/>
+                <CheckBox x:Name="autoStartCheck" Content="Start VoltAir at system startup" IsChecked="False"/>
+            </StackPanel>
+            
+            <!-- Progress Info -->
+            <StackPanel Grid.Row="1" Spacing="10">
+                <TextBlock x:Name="statusText" FontWeight="300" HorizontalAlignment="Center"/>
+                <ProgressBar x:Name="progressBar" Minimum="0" Maximum="100" Value="0" Height="20"/>
+            </StackPanel>
+            
+            <!-- Action Buttons -->
+            <Grid Grid.Row="2" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Cancel Button -->
+                <Button x:Name="cancelButton" Grid.Column="0" HorizontalAlignment="Stretch" 
+                        Click="Cancel_Click" Classes="Secondary" Content="Cancel"/>
+
+                <!-- Install Button -->
+                <Button x:Name="installButton" Grid.Column="2" HorizontalAlignment="Stretch" 
+                        Click="Install_Click" Classes="Primary" Content="Install"/>
+                
+                <!-- Complete Button -->
+                <Button x:Name="completeButton" Grid.Column="2" HorizontalAlignment="Stretch" 
+                        Click="Complete_Click" IsVisible="False" Classes="Primary" Content="Complete"/>
+                </Grid>
+        </Grid>
+        </Grid>
+</UserControl>

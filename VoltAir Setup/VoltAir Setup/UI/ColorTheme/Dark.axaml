@@ -1,0 +1,74 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="Primary">#5863F8</Color>
+    <Color x:Key="Foreground">#fff</Color>
+    
+    <!-- Secondary Text -->
+    <Color x:Key="TxtSecondary">rgba(255, 255, 255, 0.5)</Color>
+    
+    <!-- TitleBar -->
+    <Color x:Key="TitleBarButtonHover">#373737</Color>
+    <Color x:Key="TitleBarButtonPressed">#424242</Color>
+    <Color x:Key="TitleBarCloseButtonHover">#C42B1C</Color>
+    <Color x:Key="TitleBarCloseButtonPressed">rgba(196, 43, 28, 0.9)</Color>
+    
+    <!-- Background -->
+    <Color x:Key="BgBlur">rgba(42, 42, 42, 1)</Color>
+    
+    <!-- NavBar Background -->
+    <Color x:Key="NavBarBackground">#5863F8</Color>
+    <Color x:Key="NavBarBorder">#5F95FF</Color>
+
+    <!-- NavBar ToggleButton -->
+    <Color x:Key="NavBarToggleButtonBg">Transparent</Color>
+    <Color x:Key="NavBarToggleButtonBgHover">#6973FF</Color>
+    <Color x:Key="NavBarToggleButtonBgPressed">#707AFF</Color>
+    <Color x:Key="NavBarToggleButtonBgChecked">#707AFF</Color>
+    
+    <!-- Card Background -->
+    <Color x:Key="CardBackground">#373737</Color>
+    <Color x:Key="CardBorder">#4D4D4D</Color>
+    <Color x:Key="BgSupCards">rgba(225, 225, 225, 0.1)</Color>
+    
+    <!-- Day Badge -->
+    <Color x:Key="DayBackground">#4A4A4A</Color>
+    
+    <!-- Button Primary -->
+    <Color x:Key="ButtonHover">#626cfc</Color>
+    <Color x:Key="ButtonPressed">#6872fe</Color>
+    
+    <!-- Button Alert -->
+    <Color x:Key="ButtonAlertBg">#FC3D40</Color>
+    <Color x:Key="ButtonAlertHover">#FF3236</Color>
+    <Color x:Key="ButtonAlertPressed">#E22326</Color>
+    
+    <!-- Button Secondary -->
+    <Color x:Key="ButtonSecondaryBorder">#515151</Color>
+    <Color x:Key="ButtonSecondaryBgHover">#3F3F3F</Color>
+    <Color x:Key="ButtonSecondaryBgPressed">#494848</Color>
+    
+    <!-- Progress -->
+    <Color x:Key="BackgroundProgress">rgba(225, 225, 225, 0.1)</Color>
+    <Color x:Key="ForegroundProgress">#fff</Color>
+    
+    <!-- Colors -->
+    <Color x:Key="Green">#17B559</Color>
+    
+    <!-- Badge -->
+    <Color x:Key="GreenBorderBadge">#1DD76A</Color>
+    <Color x:Key="GreenBadge">rgba(23, 181, 89, 0.26)</Color>
+
+    <!-- ToggleSwitch -->
+    <Color x:Key="OffToggleSwitch">#4D4D4D</Color>
+    
+    <!-- ComboBox -->
+    <Color x:Key="ComboBorder">#4D4D4D</Color>
+    <Color x:Key="ComboPlaceholder">#888888</Color>
+    <Color x:Key="ComboIconStroke">#BBBBBB</Color>
+    <Color x:Key="ComboDropdownBg">#373737</Color>
+    <Color x:Key="ComboItemHoverBg">#404040</Color>
+    <BoxShadows x:Key="ComboDropdownShadow">0 4 12 0 #20000000</BoxShadows>
+    
+    <!-- Logs -->
+    <Color x:Key="LogsBorder">#404040</Color>
+</ResourceDictionary>

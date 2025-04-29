@@ -1,0 +1,125 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:components="clr-namespace:VoltAir.Views.Components"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
+             x:Class="VoltAir.Views.Pages.Boost">
+    
+    <Grid>
+        <ScrollViewer>
+            <WrapPanel>
+
+                <!-- TEMP CLEANING -->
+                <Border Classes="Cards" Padding="10" Margin="0, 0, 10, 10">
+                    <Grid RowDefinitions="*, 10, Auto">
+                        <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="System Cleanup" FontWeight="500"
+                                           FontSize="15" Margin="0,0,0,4"/>
+                                <TextBlock Text="Remove unnecessary temporary files, cache, and logs to free up disk space and improve system performance."
+                                           TextWrapping="Wrap" FontSize="12" FontWeight="300" MaxWidth="300"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Button Grid.Row="2" Content="Start Cleanup" HorizontalAlignment="Stretch"
+                                Classes="Secondary" Click="OnOpenCleanFoldersWindowClick"/>
+                    </Grid>
+                </Border>
+
+                <!-- EDGE -->
+                <Border Classes="Cards" Padding="10" HorizontalAlignment="Left" Margin="0, 0, 10, 10" Width="220">
+                    <Grid RowDefinitions="*, 10, Auto">
+                        <StackPanel Orientation="Vertical" Spacing="10">
+                            <Svg Path="../../Assets/Boost/EdgeLogo.svg" Height="52" Width="52"/>
+                            <TextBlock TextWrapping="Wrap" FontWeight="300">
+                                Edge runs background processes. If you use another browser, uninstalling it frees up space and improves performance.
+                            </TextBlock>
+                        </StackPanel>
+                        <Button Grid.Row="2"
+                                Classes="Primary"
+                                HorizontalAlignment="Stretch"
+                                Content="Remove Microsoft Edge"
+                                Click="OnAskRemoveEdgeClick"/>
+                    </Grid>
+                </Border>
+
+                <!-- DEFENDER -->
+                <Border Classes="Cards" Padding="10" HorizontalAlignment="Left" Margin="0, 0, 10, 10" Width="220">
+                    <Grid RowDefinitions="*, 10, Auto">
+                        <StackPanel Orientation="Vertical" Spacing="10" VerticalAlignment="Top">
+                            <Svg Path="../../Assets/Boost/WinDef.svg" Height="60" Width="60" VerticalAlignment="Top"/>
+                            <TextBlock TextWrapping="Wrap" FontWeight="300">
+                                Windows Defender constantly uses CPU and RAM for background scans, slowing down your system.
+                            </TextBlock>
+                        </StackPanel>
+                        <Button Grid.Row="2" Classes="Primary" HorizontalAlignment="Stretch"
+                                Content="Remove Windows Defender" Click="OnAskRemoveDefenderClick"/>
+                    </Grid>
+                </Border>
+
+                <!-- Win IoT -->
+                <Border Width="500" Height="200" Margin="0,0,10,10">
+                    <Grid>
+                        <Border CornerRadius="10" ClipToBounds="True">
+                            <Image Source="../../Assets/Boost/WinBg.jpg" Stretch="UniformToFill" VerticalAlignment="Stretch"
+                                   HorizontalAlignment="Stretch"/>
+                        </Border>
+                        <Svg Path="../../Assets/Boost/LogoWin11.svg" Width="140"/>
+                        <Button Content="Install Windows 11 IoT Enterprise LTSC" 
+                                Click="OnAskInstallWindows11IOTClick" Margin="10"
+                                Classes="WinIoT"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+                    </Grid>
+                </Border>
+                
+                <!-- Windows Settings -->
+                <Border Classes="Cards" Width="250" Height="200" Padding="10" VerticalAlignment="Top" Margin="0,0,10,10">
+                    <ScrollViewer>
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="Windows Settings" FontWeight="500" FontSize="16"/>
+                            <StackPanel Spacing="10">
+                                <!-- Telemetry Toggle -->
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <ToggleSwitch x:Name="TelemetryToggle"
+                                                  IsCheckedChanged="OnTelemetryToggled"/>
+                                    <TextBlock Text="Telemetry" VerticalAlignment="Center"
+                                               FontSize="13" FontWeight="400"/>
+                                </StackPanel>
+                                
+                                <!-- PowerSaver Toggle -->
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <ToggleSwitch x:Name="PowerSaverToggle"
+                                                  IsCheckedChanged="OnPowerSaverToggled"/>
+                                    <TextBlock Text="Power Saver Mode" VerticalAlignment="Center"
+                                               FontSize="13" FontWeight="400"/>
+                                </StackPanel>
+                                
+                                <!-- Windows Update Toggle -->
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <ToggleSwitch x:Name="WindowsUpdateToggle"
+                                                  IsCheckedChanged="OnWindowsUpdateToggled"/>
+                                    <TextBlock Text="Windows Update" VerticalAlignment="Center"
+                                               FontSize="13" FontWeight="400"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </WrapPanel>
+        </ScrollViewer>
+
+        <!-- CONFIRMATION POPUP -->
+        <components:ConfirmDialog x:Name="DefenderConfirmPopup" IsVisible="False"/>
+        
+        <!-- Toast Container -->
+        <Panel x:Name="ToastContainer"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Bottom"
+               Margin="0,0,10,10"
+               ZIndex="100" />
+    </Grid>
+</UserControl>

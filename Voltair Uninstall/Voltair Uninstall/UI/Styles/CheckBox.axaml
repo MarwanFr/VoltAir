@@ -1,0 +1,87 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="CheckBox">
+
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource BgBlur}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CardBorder}" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="BorderThickness" Value="0.5" />
+        <Setter Property="Padding" Value="10,0,0,0" />
+        <Setter Property="FontWeight" Value="300"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,*">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{DynamicResource CardBorder}"
+                        BorderThickness="0.5"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Height="21"
+                        Width="21"
+                        Name="border"
+                        VerticalAlignment="Center">
+                        <Border.Transitions>
+                            <Transitions>
+                                <BrushTransition Duration="0:0:0.15" Property="Background" />
+                            </Transitions>
+                        </Border.Transitions>
+                        <Panel>
+                            <Path
+                                Data="M5 14L8.5 17.5L19 6.5"
+                                Stroke="White"
+                                StrokeThickness="1.3"
+                                StrokeLineCap="Round"
+                                StrokeJoin="Round"
+                                Height="10"
+                                Width="10"
+                                HorizontalAlignment="Center"
+                                Margin="1,2,0,0"
+                                Name="checkMark"
+                                Stretch="Uniform"
+                                VerticalAlignment="Center"/>
+                        </Panel>
+                    </Border>
+                    <ContentPresenter
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        Grid.Column="1"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        IsVisible="{TemplateBinding Content,
+                                                    Converter={x:Static ObjectConverters.IsNotNull}}"
+                        Margin="{TemplateBinding Padding}"
+                        Name="PART_ContentPresenter"
+                        RecognizesAccessKey="True"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="CheckBox:checked /template/ Border#border">
+        <Setter Property="Background" Value="{DynamicResource Primary}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Primary}" />
+    </Style>
+
+    <Style Selector="CheckBox:pointerover /template/ Border#border">
+        <Setter Property="BorderBrush" Value="{DynamicResource Primary}" />
+    </Style>
+
+    <Style Selector="CheckBox /template/ Path#checkMark">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="CheckBox /template/ Rectangle#indeterminateMark">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="CheckBox:checked /template/ Path#checkMark">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="CheckBox:indeterminate /template/ Rectangle#indeterminateMark">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="CheckBox:disabled /template/ Border#border">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+</Styles>

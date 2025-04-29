@@ -1,0 +1,56 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200"
+        x:Class="VoltAir.Views.Components.LoadingWindow"
+        Title="Loading..."
+        Width="300"
+        Height="170"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SystemDecorations="None"
+        Background="Transparent"
+        ShowInTaskbar="False"
+        Topmost="True">
+    
+    <Window.Transitions>
+        <Transitions>
+            <DoubleTransition Property="Opacity" Duration="0:0:0.3" />
+        </Transitions>
+    </Window.Transitions>
+    
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Stretch">
+        <Border x:Name="LoadingBorder"
+                Width="300"
+                Height="120"
+                Padding="20"
+                CornerRadius="12"
+                Background="{DynamicResource BgBlur}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                BorderBrush="{DynamicResource CardBorder}"
+                BorderThickness="0.5">
+            <StackPanel Spacing="15">
+                <TextBlock Text="Loading in progress..."
+                           FontSize="16"
+                           FontWeight="500"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Center"/>
+                
+                <!-- Loading indicator -->
+                <ProgressBar IsIndeterminate="True" 
+                             Height="4" 
+                             Foreground="{DynamicResource ForegroundProgress}" 
+                             Background="{DynamicResource BackgroundProgress}"/>
+            </StackPanel>
+            
+            <Border.Transitions>
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
+                </Transitions>
+            </Border.Transitions>
+        </Border>
+    </Grid>
+</Window>

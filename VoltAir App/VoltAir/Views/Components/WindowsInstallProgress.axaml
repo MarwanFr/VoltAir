@@ -1,0 +1,143 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400"
+        x:Class="VoltAir.Views.Components.WindowsInstallProgress"
+        Title="Windows 11 IoT Installation"
+        Width="450" Height="450"
+        Icon="/Assets/TaskbarLogo.png"
+        Background="{DynamicResource BgBlur}"
+        WindowStartupLocation="CenterScreen"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1">
+
+    <ScrollViewer>
+        <Grid RowDefinitions="40, *">
+            <!-- TitleBar -->
+            <Grid HorizontalAlignment="Stretch"
+                  Background="Transparent"
+                  PointerPressed="OnPointerPressed">
+                <TextBlock Text="VoltAir" VerticalAlignment="Center" FontSize="12" Margin="10, 4, 0, 0"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Classes="TitleBarButton"
+                            Content="&#xe921;"
+                            Click="MinimizeWindow"/>
+
+                    <Button x:Name="MaximizeButton"
+                            Classes="TitleBarButton"
+                            Content="&#xe922;"
+                            Click="ToggleMaximizeWindow"/>
+
+                    <Button Classes="TitleBarButton Close"
+                            Content="&#xe8bb;"
+                            Click="CloseWindow"/>
+                </StackPanel>
+            </Grid>
+            <Grid Margin="20" Grid.Row="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Title Row -->
+            <RowDefinition Height="Auto"/> <!-- Current Step Row -->
+            <RowDefinition Height="Auto"/> <!-- Progress Bar Row -->
+            <RowDefinition Height="Auto"/> <!-- Progress Text Row -->
+            <RowDefinition Height="Auto"/> <!-- Download Info Row -->
+            <RowDefinition Height="*"/> <!-- Log Area Row (Flexible) -->
+            <RowDefinition Height="Auto"/> <!-- Button Row -->
+        </Grid.RowDefinitions>
+
+        <!-- Logo and title -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" HorizontalAlignment="Center" Margin="0,0,0,20">
+            <Viewbox Width="150">
+                <Path
+                    Data="M95.55 38.885h-6.0157l-5.8658-22.328-5.9304 22.328h-6.1486l-8.0653-29.022h5.4563l5.8161 23.085 6.3496-23.085h5.5112l5.9683 23.222 5.5238-23.222h5.2685z M111.13 11.986c0 .7846-.28906 1.4384-.86717 1.9615-.56435.52306-1.2526.78459-2.0647.78459-.81212 0-1.5004-.26156-2.0647-.78459-.56435-.52307-.84652-1.1769-.84652-1.9615 0-.79834.28217-1.4659.84652-2.0028.57812-.53682 1.2664-.80524 2.0647-.80524.83965 0 1.5348.27534 2.0854.82588.56434.55062.84652 1.2113.84652 1.9821zm-5.442 26.898v-20.915h4.876v20.915z M129.33 38.885v-11.645c0-3.0511-.94643-5.6831-4.0201-5.6831-3.0577 0-4.9966 2.7533-4.9966 5.5386v11.789h-4.7695v-20.915h4.7695v2.9584h.0826c1.5829-2.4506 3.8679-3.3111 6.8548-3.3111 2.2436 0 3.978.55225 5.203 1.9838 1.2388 1.4315 1.7827 3.6063 1.7827 6.5245v12.759z M153.28 38.885v-2.6924h-.0826c-1.5141 2.5465-4.6048 3.1336-6.7596 3.1336-6.4042 0-8.7543-4.9749-8.7543-10.269 0-3.51.87406-6.318 2.6222-8.424 1.7619-2.1198 4.1156-3.0373 7.0613-3.0373 4.5855 0 5.8305 2.5513 5.8305 2.5513h.0826v-12.104h4.9473v30.842zm.0413-11.918c0-2.5265-1.6236-5.397-5.0504-5.397-3.92 0-5.4434 3.4113-5.4434 7.343 0 3.4326 1.4375 6.548 5.1705 6.5997 3.6604 0 5.2936-3.4887 5.3233-6.3726z M183.186 28.335c0 7.2446-4.3298 11.169-10.832 11.169-7.0707 0-10.695-4.2328-10.695-10.715 0-7.4157 4.3429-11.273 11.211-11.273 6.2932 0 10.316 4.0228 10.316 10.819zm-5.0794.1651c0-3.2231-1.1425-6.8059-5.5051-6.8059-4.1842 0-5.8097 3.1138-5.8097 6.9298 0 4.1456 1.9524 6.7824 5.7799 6.7824 4.1005 0 5.5051-3.1471 5.535-6.9063z M209.356 38.885h-5.3811l-4.1133-15.137-4.4127 15.137h-5.223l-6.0846-20.851h5.1062l3.9735 16.199 4.6441-16.199h4.7894l4.1408 16.157 3.8735-16.157h4.6797z M230.665 33.063c0 4.6565-4.2225 6.4714-8.4554 6.4714-2.7569 0-5.5019-1.0619-5.5019-1.0619v-4.9529s2.3861 2.0793 5.7192 2.1052c2.2849 0 3.3142-.72057 3.3142-2.0924.05644-1.1006-.61364-1.7075-1.4147-2.1625-.55059-.33035-1.4109-.73641-2.5809-1.2182-1.3765-.59187-2.4019-1.1631-3.0764-1.7137-.6607-.55058-1.1562-1.1975-1.4866-1.9408-.31658-.74329-.55035-1.5601-.55035-2.5512 0-3.76 3.1359-6.4167 8.1485-6.4167 3.313 0 4.7488.81239 4.7488.81239v4.7052s-2.3545-1.6272-4.8008-1.642c-1.7529 0-3.0784.6382-3.1016 2.0825-.01235 1.8616 2.2673 2.769 3.6284 3.3197 1.9821.79835 3.4326 1.6506 4.2447 2.6279.81212.9773 1.1648 1.9614 1.1648 3.6282z M249.849 9.017v29.868h-4.9894v-23.825s-1.7107 1.5803-6.1015 2.7254v-4.2516c6.5257-2.4134 8.8682-4.5165 8.8682-4.5165z M0 0h23.105v23.105H0z M25.64 0h23.105v23.105H25.64z M0 25.642h23.105v23.105H0z M25.64 25.642h23.105v23.105H25.64z M264.583 9.017v29.868h-4.9894v-23.825s-1.7107 1.5803-6.1015 2.7254v-4.2516c6.5257-2.4134 8.8682-4.5165 8.8682-4.5165z"
+                    Fill="{DynamicResource Foreground}"/>
+            </Viewbox>
+        </StackPanel>
+
+        <!-- Current step -->
+        <TextBlock x:Name="CurrentStep" Grid.Row="1"
+                   Text="Downloading ISO image..."
+                   FontSize="16" FontWeight="500"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,15"/>
+
+        <!-- Progress bar -->
+        <ProgressBar x:Name="ProgressBar" Grid.Row="2"
+                     Value="0" Maximum="100"
+                     Height="20" Margin="0,0,0,10"/>
+
+        <!-- Percentage -->
+        <TextBlock x:Name="ProgressText" Grid.Row="3"
+                   Text="0%"
+                   FontSize="14"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,10"/>
+
+        <!-- Download information -->
+        <Grid Grid.Row="4" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Download speed -->
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                <TextBlock Text="Speed"
+                           FontSize="12" Foreground="#AAAAAA"
+                           HorizontalAlignment="Center"/>
+                <TextBlock x:Name="DownloadSpeed"
+                           Text="0 MB/s"
+                           FontSize="14" FontWeight="SemiBold"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Remaining time -->
+            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                <TextBlock Text="Remaining Time"
+                           FontSize="12" Foreground="#AAAAAA"
+                           HorizontalAlignment="Center"/>
+                <TextBlock x:Name="EstimatedTime"
+                           Text="Calculating..."
+                           FontSize="14" FontWeight="SemiBold"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Installation log -->
+        <Border Grid.Row="5"
+                BorderBrush="{DynamicResource LogsBorder}" BorderThickness="0.5"
+                CornerRadius="5" Margin="0,0,0,15">
+            <ScrollViewer x:Name="LogScroller" VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="LogText"
+                           Padding="10"
+                           TextWrapping="Wrap"
+                           FontFamily="Consolas, Monospace"
+                           FontSize="12"/>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Buttons -->
+        <Grid Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Error or success message -->
+            <TextBlock x:Name="StatusMessage"
+                       Grid.Column="0"
+                       VerticalAlignment="Center"/>
+
+            <!-- Cancel or close button -->
+            <Button x:Name="CancelButton"
+                    Grid.Column="1"
+                    Classes="Secondary"
+                    Content="Cancel"
+                    Padding="20,8"
+                    Click="OnCancelButtonClick"/>
+        </Grid>
+    </Grid>
+        </Grid>
+    </ScrollViewer>
+</Window>

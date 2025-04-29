@@ -1,0 +1,23 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="VoltAir_Setup.Views.Pages.WelcomePage">
+    <StackPanel Spacing="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Spacing="5">
+            <TextBlock Text="Welcome to VoltAir Setup" FontSize="17" FontWeight="500" TextAlignment="Center"/>
+            <TextBlock Text="Please accept the Terms of Service and click 'Next' to begin the installation." FontSize="12" FontWeight="300" TextAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel Spacing="10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <CheckBox x:Name="TermsCheckBox" VerticalAlignment="Center"
+                      IsChecked="False" Checked="OnTermsChecked" Unchecked="OnTermsUnchecked">
+            </CheckBox>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" FontWeight="300" Text="Accept the"/>
+                <HyperlinkButton FontWeight="300" Foreground="{DynamicResource Primary}" VerticalAlignment="Center" Name="TermsOfServiceLink" Content="Terms of Service" Click="OnTermsOfServiceClicked"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Button x:Name="NextButton" Content="Next" Classes="Primary"
+                Click="OnNextClicked" HorizontalAlignment="Center" IsEnabled="False"/>
+    </StackPanel>
+</UserControl>

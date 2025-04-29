@@ -1,0 +1,42 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:pages="using:VoltAir_Setup.Views.Pages"
+        x:Class="VoltAir_Setup.Views.MainWindow"
+        Title="VoltAir Setup"
+        Width="500" Height="400"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/TaskbarLogo.png"
+        Background="{DynamicResource BgBlur}"
+        ExtendClientAreaToDecorationsHint="True"
+        SystemDecorations="None">
+
+    <Grid RowDefinitions="40,*">
+        <Border Grid.Row="0" Background="Transparent" PointerPressed="OnPointerPressed">
+            <!-- TitleBar -->
+            <Grid HorizontalAlignment="Stretch"
+                  Background="Transparent"
+                  PointerPressed="OnPointerPressed">
+                <TextBlock Text="VoltAir" VerticalAlignment="Center" FontSize="12" Margin="10, 4, 0, 0"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Classes="TitleBarButton"
+                            Content="&#xe921;"
+                            Click="MinimizeWindow"/>
+
+                    <Button x:Name="MaximizeButton"
+                            Classes="TitleBarButton"
+                            Content="&#xe922;"
+                            Click="ToggleMaximizeWindow"/>
+
+                    <Button Classes="TitleBarButton Close"
+                            Content="&#xe8bb;"
+                            Click="CloseWindow"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Zone de contenu -->
+        <ContentControl Grid.Row="1" x:Name="PageContent">
+            <pages:WelcomePage/>
+        </ContentControl>
+    </Grid>
+</Window>

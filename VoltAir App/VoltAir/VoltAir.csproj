@@ -1,0 +1,88 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <ApplicationIcon>TaskbarLogo.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
+        <None Remove="TaskbarLogo.ico" />
+        <AvaloniaResource Include="TaskbarLogo.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.3.0-beta2" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.3.0-beta2" />
+        <PackageReference Include="Avalonia.Svg.Skia" Version="11.2.7.1-beta1" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.0-beta2" />
+        <PackageReference Include="Avalonia.Themes.Simple" Version="11.3.0-beta2" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.0-beta2" />
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.3.0-beta2">
+            <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+            <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.5-pre396" />
+        <PackageReference Include="NvAPIWrapper.Net" Version="0.8.1.101" />
+        <PackageReference Include="SpacedGrid-Avalonia" Version="11.0.0" />
+        <PackageReference Include="Supabase" Version="1.1.1" />
+        <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="10.0.0-preview.3.25171.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Models\" />
+        <Folder Include="Services\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="Views\Pages\Home.axaml" />
+        <AdditionalFiles Include="Views\Pages\Performances.axaml" />
+        <AdditionalFiles Include="Views\Pages\Settings.axaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Copie du fichier RemoveEdge.exe -->
+        <Content Include="Resources\RemoveEdge.exe">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+
+        <!-- Copie des fichiers .reg -->
+        <Content Include="Resources\Regedit\DisableTelemetry.reg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Resources\Regedit\EnableTelemetry.reg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Resources\DefenderRemover.exe" />
+        <Content Include="Resources\DefenderRemover.exe">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Update=".env">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\Components\ConfirmDialog.axaml.cs">
+        <DependentUpon>ConfirmDialog.axaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\Components\LoadingWindow.axaml.cs">
+        <DependentUpon>LoadingWindow.axaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\Components\WindowsInstallProgress.axaml.cs">
+        <DependentUpon>WindowsInstallProgress.axaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\Components\ToastNotification.axaml.cs">
+        <DependentUpon>ToastNotification.axaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\Components\ProgressDialog.axaml.cs">
+        <DependentUpon>ProgressDialog.axaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
+</Project>

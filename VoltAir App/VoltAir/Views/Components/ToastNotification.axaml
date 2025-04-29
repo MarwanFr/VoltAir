@@ -1,0 +1,137 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="80"
+             x:Class="VoltAir.Views.Components.ToastNotification"
+             HorizontalAlignment="Stretch"
+             Name="ToastControl"
+             Opacity="0">
+    
+    <UserControl.Styles>
+        <Style Selector="Border.success">
+            <Setter Property="Background" Value="#1E8E3E"/>
+            <Setter Property="BorderBrush" Value="#34A853"/>
+        </Style>
+        <Style Selector="Border.error">
+            <Setter Property="Background" Value="#D93025"/>
+            <Setter Property="BorderBrush" Value="#EA4335"/>
+        </Style>
+        <Style Selector="Border.info">
+            <Setter Property="Background" Value="#1A73E8"/>
+            <Setter Property="BorderBrush" Value="#4285F4"/>
+        </Style>
+        <Style Selector="Border.warning">
+            <Setter Property="Background" Value="#F29900"/>
+            <Setter Property="BorderBrush" Value="#FBBC04"/>
+        </Style>
+        
+        <!-- Animation entrée -->
+        <Style Selector="UserControl.show">
+            <Style.Animations>
+                <Animation Duration="0:0:0.3" FillMode="Forward">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Opacity" Value="0"/>
+                        <Setter Property="TranslateTransform.Y" Value="-20"/>
+                    </KeyFrame>
+                    <KeyFrame Cue="100%" KeySpline="0.2,0,0,1">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Setter Property="TranslateTransform.Y" Value="0"/>
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        
+        <!-- Animation sortie -->
+        <Style Selector="UserControl.hide">
+            <Style.Animations>
+                <Animation Duration="0:0:0.25" FillMode="Forward">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Opacity" Value="1"/>
+                    </KeyFrame>
+                    <KeyFrame Cue="100%" KeySpline="0.2,0,0,1">
+                        <Setter Property="Opacity" Value="0"/>
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        
+        <!-- Style du bouton Close -->
+        <Style Selector="Button.closeButton:pointerover">
+            <Setter Property="Background" Value="#25FFFFFF"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.closeButton:pressed">
+            <Setter Property="Background" Value="#40FFFFFF"/>
+        </Style>
+    </UserControl.Styles>
+    
+    <Border x:Name="ToastBorder"
+            CornerRadius="8"
+            BorderThickness="0.5"
+            HorizontalAlignment="Stretch"
+            BoxShadow="0 4 16 0 #30000000"
+            Classes="error">
+        <Grid ColumnDefinitions="Auto,*,Auto" Margin="10,5">
+            <Panel Grid.Column="0" Margin="0,0,12,0">
+                <Viewbox Width="17" Height="17">
+                    <Path x:Name="IconSuccess" IsVisible="False"
+                          Data="M5 14L8.5 17.5L19 6.5" 
+                          Stroke="White" StrokeThickness="1.3"
+                          StrokeJoin="Round" StrokeLineCap="Round"/>
+                </Viewbox>
+                <Viewbox Width="17" Height="17">
+                    <Path x:Name="IconError" IsVisible="True"
+                          Data="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z M11.992 15H12.001 M12 12L12 8" 
+                          Stroke="White" StrokeThickness="1.3"
+                          StrokeJoin="Round" StrokeLineCap="Round"/>
+                </Viewbox>
+                <Viewbox Width="17" Height="17">
+                    <Path x:Name="IconInfo" IsVisible="False"
+                          Data="M2.5 12C2.5 7.52166 2.5 5.28249 3.89124 3.89124C5.28249 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28249 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12Z M12.2422 17V12C12.2422 11.5286 12.2422 11.2929 12.0957 11.1464C11.9493 11 11.7136 11 11.2422 11 M11.992 8H12.001"
+                          Stroke="White" StrokeThickness="1.3"
+                          StrokeJoin="Round" StrokeLineCap="Round"/>
+                </Viewbox>
+                <Viewbox Width="17" Height="17">
+                    <Path x:Name="IconWarning" IsVisible="False"
+                          Data="M5.32171 9.6829C7.73539 5.41196 8.94222 3.27648 10.5983 2.72678C11.5093 2.42437 12.4907 2.42437 13.4017 2.72678C15.0578 3.27648 16.2646 5.41196 18.6783 9.6829C21.092 13.9538 22.2988 16.0893 21.9368 17.8293C21.7376 18.7866 21.2469 19.6548 20.535 20.3097C19.241 21.5 16.8274 21.5 12 21.5C7.17265 21.5 4.75897 21.5 3.46496 20.3097C2.75308 19.6548 2.26239 18.7866 2.06322 17.8293C1.70119 16.0893 2.90803 13.9538 5.32171 9.6829Z M11.992 16H12.001 M12 13L12 8.99997" 
+                          Stroke="White" StrokeThickness="1.3"
+                          StrokeJoin="Round" StrokeLineCap="Round"/>
+                </Viewbox>
+            </Panel>
+            
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,8,0">
+                <TextBlock x:Name="ToastTitle" 
+                           Text="Erreur" 
+                           FontWeight="400" 
+                           Foreground="White"
+                           FontSize="13"/>
+                <TextBlock x:Name="ToastMessage" 
+                           Text="Une erreur s'est produite." 
+                           TextWrapping="Wrap" 
+                           Foreground="White" 
+                           Opacity="0.9"
+                           FontWeight="300"
+                           FontSize="12"/>
+            </StackPanel>
+            
+            <Button Grid.Column="2" 
+                    Classes="closeButton"
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    Width="18"
+                    Height="18"
+                    CornerRadius="6"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Click="CloseButton_Click">
+                <Path Data="M18 6L12 12M12 12L6 18M12 12L18 18M12 12L6 6" 
+                      Stroke="White"
+                      StrokeJoin="Round"
+                      StrokeLineCap="Round"
+                      StrokeThickness="1"
+                      Stretch="Uniform"/>
+            </Button>
+        </Grid>
+    </Border>
+</UserControl>

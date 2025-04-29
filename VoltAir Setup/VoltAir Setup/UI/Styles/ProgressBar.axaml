@@ -1,0 +1,161 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="ProgressBar">
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundProgress}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundProgress}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel Name="PART_Dock">
+                    <Border Name="PART_RootBorder"
+                            MinWidth="{TemplateBinding MinWidth}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            ClipToBounds="True"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <Panel>
+                            <Border Name="PART_Indicator"
+                                    Width="8"
+                                    Height="4"
+                                    Background="{TemplateBinding Foreground}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    IsVisible="{Binding !IsIndeterminate, RelativeSource={RelativeSource TemplatedParent}}">
+
+                                <Border.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Easing="CircularEaseOut"
+                                                          Property="Width"
+                                                          Duration="0:0:0.6" />
+                                        <DoubleTransition Easing="CircularEaseOut"
+                                                          Property="Height"
+                                                          Duration="0:0:0.6" />
+                                        <BrushTransition Property="Background" Duration="0:0:0.5" />
+                                    </Transitions>
+                                </Border.Transitions>
+                            </Border>
+                            <Border Name="PART_IndeterminateIndicator"
+                                    Height="4"
+                                    Background="{TemplateBinding Foreground}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    IsVisible="{Binding IsIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Panel>
+                    </Border>
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="ProgressBar:horizontal /template/ Border#PART_Indicator">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+    <Style Selector="ProgressBar:vertical /template/ DockPanel#PART_Dock">
+        <Setter Property="Width" Value="35" />
+    </Style>
+    <Style Selector="ProgressBar:vertical /template/ Border#PART_Indicator">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+
+    <Style Selector="ProgressBar:horizontal">
+        <Setter Property="MinWidth" Value="100" />
+    </Style>
+
+    <Style Selector="ProgressBar:vertical">
+        <Setter Property="MinHeight" Value="200" />
+    </Style>
+
+    <Style Selector="ProgressBar:horizontal /template/ TextBlock#PART_Text">
+        <Setter Property="DockPanel.Dock" Value="Right" />
+        <Setter Property="Height" Value="15" />
+    </Style>
+
+    <Style Selector="ProgressBar:vertical /template/ TextBlock#PART_Text">
+        <Setter Property="DockPanel.Dock" Value="Bottom" />
+        <Setter Property="Margin" Value="10,10,0,0" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Width" Value="35" />
+    </Style>
+
+    <Style Selector="ProgressBar:horizontal[ShowProgressText=True] /template/ TextBlock#PART_Text">
+        <Style.Animations>
+            <Animation FillMode="Forward" Duration="0:0:0.35">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Width" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Width" Value="40" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+
+    <Style Selector="ProgressBar:horizontal[ShowProgressText=False] /template/ TextBlock#PART_Text">
+        <Style.Animations>
+            <Animation FillMode="Forward" Duration="0:0:0.35">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Width" Value="40" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Width" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+
+    <Style Selector="ProgressBar:vertical[ShowProgressText=True] /template/ TextBlock#PART_Text">
+        <Style.Animations>
+            <Animation FillMode="Forward" Duration="0:0:0.35">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Height" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Height" Value="35" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+
+    <Style Selector="ProgressBar:vertical[ShowProgressText=False] /template/ TextBlock#PART_Text">
+        <Style.Animations>
+            <Animation FillMode="Forward" Duration="0:0:0.35">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Height" Value="35" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Height" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+
+    <Style Selector="ProgressBar:horizontal /template/ Border#PART_RootBorder">
+        <Setter Property="MinHeight" Value="6" />
+        <Setter Property="Height" Value="6" />
+        <Setter Property="MaxHeight" Value="6" />
+    </Style>
+
+    <Style Selector="ProgressBar:vertical /template/ Border#PART_RootBorder">
+        <Setter Property="MinWidth" Value="8" />
+        <Setter Property="Width" Value="8" />
+        <Setter Property="MaxWidth" Value="8" />
+    </Style>
+
+    <Style Selector="ProgressBar:horizontal /template/ Border#PART_Indicator">
+        <Setter Property="Height" Value="6" />
+    </Style>
+
+    <Style Selector="ProgressBar:horizontal /template/ Border#PART_IndeterminateIndicator">
+        <Setter Property="Height" Value="6" />
+    </Style>
+
+    <Style Selector="ProgressBar:vertical /template/ LayoutTransformControl#PART_LayoutTransformControl">
+        <Setter Property="LayoutTransform">
+            <Setter.Value>
+                <RotateTransform Angle="90" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+</Styles>
