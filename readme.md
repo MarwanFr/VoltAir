@@ -98,6 +98,41 @@ VoltAir is developed by:
 
 This project is licensed under [GPL 3.0](LICENSE).
 
+## 📚 Credits
+
+This project uses the following open-source libraries:
+
+### UI Framework
+- [Avalonia](https://github.com/AvaloniaUI/Avalonia) - Cross-platform .NET UI framework
+- [Avalonia.Themes.Fluent](https://github.com/AvaloniaUI/Avalonia) - Fluent Design theme
+- [Avalonia.Theme.Simple](https://github.com/AvaloniaUI/Avalonia) - Minimalist theme
+- [Avalonia.Svg.Skia](https://github.com/wieslawsoltes/Svg.Skia) - SVG rendering support
+- [Avalonia.Fonts.Inter](https://github.com/AvaloniaUI/Avalonia) - Inter font integration
+
+### Core Libraries
+- [CommunityToolkit.Mvvm](https://github.com/CommunityToolkit/dotnet) - MVVM pattern implementation
+- [System.Diagnostics.PerformanceCounter](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.performancecounter) - System performance monitoring
+
+### Hardware Monitoring
+- [LibreHardwareMonitorLib](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor) - Hardware sensors
+- [NvAPIWrapper.Net](https://github.com/falahati/NvAPIWrapper) - NVIDIA GPU control
+
+### Backend Services
+- [Supabase](https://github.com/supabase/supabase-csharp) - Firebase alternative for C#
+
+### Development Tools
+- [Avalonia.Diagnostics](https://github.com/AvaloniaUI/Avalonia) - Debugging tools
+- [Avalonia.Desktop](https://github.com/AvaloniaUI/Avalonia) - Desktop platform support
+
+## 📸 Screenshots
+![image](https://github.com/user-attachments/assets/bc7a372c-af0f-4418-ab5b-3ee0bfc87df2)
+![image](https://github.com/user-attachments/assets/21e37b5c-8692-4a54-94bb-6f61952095a9)
+![image](https://github.com/user-attachments/assets/6b5acf7a-80c1-47dd-ab49-68ca70626c4c)
+![image](https://github.com/user-attachments/assets/42220119-b8dc-4444-adac-99055fef1bc4)
+![image](https://github.com/user-attachments/assets/e5f993bd-556d-496f-966c-8805bd536744)
+![image](https://github.com/user-attachments/assets/cada82a5-0605-492e-a896-79f7034071b1)
+
+
 ## 📞 Support
 
 For any questions or assistance, please contact us at [voltair.social@gmail.com](mailto:voltair.social@gmail.com)
