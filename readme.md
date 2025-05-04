@@ -8,19 +8,6 @@ VoltAir is a powerful system optimization and management utility developed for W
 
 ## 💻 Compatibility
 
-- Operating System: Windows
-- Framework: Avalonia
-
-# VoltAir
-
-**Current Version:** 1.0.0 BETA
-
-## 📋 Description
-
-VoltAir is a powerful system optimization and management utility developed for Windows using the Avalonia framework. Engineered to enhance PC performance and efficiency, it provides a comprehensive suite of tools for system monitoring, cleanup, optimization, and advanced Windows configuration.
-
-## 💻 Compatibility
-
 - Operating System: Windows 10 & 11
 - Framework: Avalonia
 
