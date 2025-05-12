@@ -84,7 +84,11 @@
                     <Path x:Name="IconError" IsVisible="True"
                           Data="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z M11.992 15H12.001 M12 12L12 8" 
                           Stroke="White" StrokeThickness="1.3"
-                          StrokeJoin="Round" StrokeLineCap="Round"/>
+                          StrokeJoin="Round" StrokeLineCap="Round">
+                        <Path.RenderTransform>
+                            <ScaleTransform ScaleX="0.92" ScaleY="0.92"/>
+                        </Path.RenderTransform>
+                    </Path>
                 </Viewbox>
                 <Viewbox Width="17" Height="17">
                     <Path x:Name="IconInfo" IsVisible="False"
@@ -119,8 +123,9 @@
                     Classes="closeButton"
                     Background="Transparent" 
                     BorderThickness="0"
-                    Width="18"
-                    Height="18"
+                    Width="21"
+                    Height="21"
+                    Padding="5"
                     CornerRadius="6"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Right"
@@ -131,6 +136,11 @@
                       StrokeLineCap="Round"
                       StrokeThickness="1"
                       Stretch="Uniform"/>
+                <Button.Styles>
+                    <Style Selector=":pressed /template/ ContentPresenter">
+                        <Setter Property="Background" Value="rgba(255, 255, 255, 0.05)"/>
+                    </Style>
+                </Button.Styles>
             </Button>
         </Grid>
     </Border>
