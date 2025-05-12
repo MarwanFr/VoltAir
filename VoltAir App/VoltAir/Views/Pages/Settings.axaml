@@ -9,7 +9,7 @@
         <!-- Navigation Bar -->
         <Border Grid.Column="0"
                 Background="#333333"
-                BorderThickness="0.5"
+                BorderThickness="{DynamicResource ThicknessResource}"
                 BorderBrush="#363636"
                 CornerRadius="5"
                 Padding="4, 4"

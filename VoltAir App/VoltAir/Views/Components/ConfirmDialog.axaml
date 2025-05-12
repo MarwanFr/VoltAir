@@ -19,7 +19,7 @@
                 VerticalAlignment="Center"
                 Classes="Cards"
                 BorderBrush="{DynamicResource CardBorder}"
-                BorderThickness="0.5">
+                BorderThickness="{DynamicResource ThicknessResource}">
             <StackPanel Spacing="15">
                 <TextBlock x:Name="ConfirmText"
                            Text="Are you sure?"

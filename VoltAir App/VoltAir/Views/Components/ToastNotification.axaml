@@ -68,7 +68,7 @@
     
     <Border x:Name="ToastBorder"
             CornerRadius="8"
-            BorderThickness="0.5"
+            BorderThickness="{DynamicResource ThicknessResource}"
             HorizontalAlignment="Stretch"
             BoxShadow="0 4 16 0 #30000000"
             Classes="error">

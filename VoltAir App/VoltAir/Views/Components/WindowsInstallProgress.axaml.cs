@@ -11,11 +11,25 @@ using System.Diagnostics;
 using System.Net.Http;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 
 namespace VoltAir.Views.Components
 {
     public partial class WindowsInstallProgress : Window
     {
+        private double _adjustedThickness = 0.5;
+        public double AdjustedThickness
+        {
+            get => _adjustedThickness;
+            set
+            {
+                if (_adjustedThickness != value)
+                {
+                    _adjustedThickness = value;
+                }
+            }
+        }
+        
         public event EventHandler<InstallationResultEventArgs>? InstallationCompleted;
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private bool _isInstalling = false;
@@ -24,6 +38,8 @@ namespace VoltAir.Views.Components
         {
             InitializeComponent();
             LogText.Text = "Preparing installation...\n";
+            
+            this.Opened += OnWindowOpened;
         }
         
         private void OnPointerPressed(object sender, PointerPressedEventArgs e)
@@ -479,6 +495,21 @@ namespace VoltAir.Views.Components
             {
                 /* Last attempt failed */
             }
+        }
+        
+        private void OnWindowOpened(object? sender, EventArgs e)
+        {
+            var scaling = this.GetVisualRoot()?.RenderScaling ?? 1.0;
+            double adjustedThickness = scaling <= 1.0 ? 1.0 : 0.5;
+            var dpi = 96 * scaling;
+    
+            var resources = this.Resources;
+            if (resources != null)
+            {
+                resources["ThicknessResource"] = new Thickness(adjustedThickness);
+            }
+    
+            // Console.WriteLine($"Scaling: {scaling}, Adjusted Thickness: {adjustedThickness}, Calculated DPI: {dpi}");
         }
         
     }

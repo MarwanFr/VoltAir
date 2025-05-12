@@ -9,12 +9,27 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.VisualTree;
 using VoltAir.Views.Components;
 
 namespace VoltAir.Views.Pages.BoostWindows
 {
     public partial class CleanFolders : Window
     {
+        private double _adjustedThickness = 0.5;
+        public double AdjustedThickness
+        {
+            get => _adjustedThickness;
+            set
+            {
+                if (_adjustedThickness != value)
+                {
+                    _adjustedThickness = value;
+                }
+            }
+        }
+        
         private readonly string _tempPath;
         private readonly string _prefetchPath;
         private readonly string _winTempPath;
@@ -60,6 +75,8 @@ namespace VoltAir.Views.Pages.BoostWindows
             TotalSizeText.Text = "0 B";
 
             CalculateFolderSizes();
+            
+            this.Opened += OnWindowOpened;
         }
 
         private async void CalculateFolderSizes()
@@ -545,5 +562,21 @@ namespace VoltAir.Views.Pages.BoostWindows
         {
             ProgressDialog.CancelDeletion();
         }
+        
+        private void OnWindowOpened(object? sender, EventArgs e)
+        {
+            var scaling = this.GetVisualRoot()?.RenderScaling ?? 1.0;
+            double adjustedThickness = scaling <= 1.0 ? 1.0 : 0.5;
+            var dpi = 96 * scaling;
+    
+            var resources = this.Resources;
+            if (resources != null)
+            {
+                resources["ThicknessResource"] = new Thickness(adjustedThickness);
+            }
+    
+            // Console.WriteLine($"Scaling: {scaling}, Adjusted Thickness: {adjustedThickness}, Calculated DPI: {dpi}");
+        }
+
     }
 }
