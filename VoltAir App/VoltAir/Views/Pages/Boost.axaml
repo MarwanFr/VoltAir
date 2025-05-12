@@ -106,6 +106,14 @@
                                                FontSize="13" FontWeight="400"/>
                                 </StackPanel>
                                 
+                                <!-- Game Mode Toggle -->
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <ToggleSwitch x:Name="GameModeToggle"
+                                                  IsCheckedChanged="OnGameModeToggled"/>
+                                    <TextBlock Text="Game Mode" VerticalAlignment="Center"
+                                               FontSize="13" FontWeight="400"/>
+                                </StackPanel>
+                                
                                 
 
                             </StackPanel>

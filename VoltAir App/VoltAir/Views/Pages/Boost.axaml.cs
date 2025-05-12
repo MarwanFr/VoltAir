@@ -25,6 +25,7 @@ namespace VoltAir.Views.Pages
             TelemetryToggle.IsChecked = IsTelemetryEnabled();
             WindowsUpdateToggle.IsChecked = IsServiceRunning("wuauserv") || IsServiceRunning("WaaSMedicSvc") ||
                                             IsServiceRunning("DoSvc");
+            GameModeToggle.IsChecked = IsGameModeEnabled();
 
             // Initialize toast notifications
             _toastService = new ToastService(this.FindControl<Panel>("ToastContainer"));
@@ -523,6 +524,84 @@ namespace VoltAir.Views.Pages
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
             window.ShowDialog(this.GetVisualRoot() as Window);
+        }
+        
+        private bool IsGameModeEnabled()
+        {
+            try
+            {
+                // 1. Check Game Mode (Windows Settings)
+                using (var gameBarKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\GameBar"))
+                {
+                    bool gameModeEnabled = (int?)gameBarKey?.GetValue("AutoGameModeEnabled") == 1;
+
+                    // 2. Check Game DVR (Optional)
+                    using (var gameDvrKey =
+                           Microsoft.Win32.Registry.CurrentUser.OpenSubKey(
+                               @"Software\Microsoft\Windows\CurrentVersion\GameDVR"))
+                    using (var gameConfigKey =
+                           Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"System\GameConfigStore"))
+                    {
+                        bool gameDvrEnabled = (int?)gameDvrKey?.GetValue("AppCaptureEnabled") == 1;
+                        bool gameConfigEnabled = (int?)gameConfigKey?.GetValue("GameDVR_Enabled") == 1;
+
+                        // If Game Mode OR Game DVR is enabled → considered as "ON"
+                        return gameModeEnabled || gameDvrEnabled || gameConfigEnabled;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private async void OnGameModeToggled(object sender, RoutedEventArgs e)
+        {
+            if (_toastService == null) return;
+
+            bool enable = GameModeToggle.IsChecked == true;
+
+            try
+            {
+                // 1. Disable/Enable Game Mode (Windows Settings)
+                string gameModeArgs =
+                    $"/c reg add \"HKCU\\Software\\Microsoft\\GameBar\" /v AutoGameModeEnabled /t REG_DWORD /d {(enable ? "1" : "0")} /f";
+
+                // 2. Disable/Enable Game DVR (Game Bar + Recording)
+                string gameDvrArgs =
+                    $"/c reg add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\GameDVR\" /v AppCaptureEnabled /t REG_DWORD /d {(enable ? "1" : "0")} /f";
+                string gameConfigArgs =
+                    $"/c reg add \"HKCU\\System\\GameConfigStore\" /v GameDVR_Enabled /t REG_DWORD /d {(enable ? "1" : "0")} /f";
+
+                // Execute silently (no window)
+                var processInfo = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    CreateNoWindow = true,
+                    UseShellExecute = false
+                };
+
+                // Apply changes
+                processInfo.Arguments = gameModeArgs;
+                Process.Start(processInfo)?.WaitForExit(1000);
+
+                processInfo.Arguments = gameDvrArgs;
+                Process.Start(processInfo)?.WaitForExit(1000);
+
+                processInfo.Arguments = gameConfigArgs;
+                Process.Start(processInfo)?.WaitForExit(1000);
+
+                // Notify the user
+                await _toastService.ShowInfo(
+                    enable ? "Game Mode + Game DVR enabled" : "Game Mode + Game DVR disabled",
+                    "Windows Settings");
+            }
+            catch (Exception ex)
+            {
+                await _toastService.ShowError($"Error: {ex.Message}", "Game Mode");
+            }
         }
     }
 }
