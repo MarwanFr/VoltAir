@@ -3,83 +3,87 @@ using System.Diagnostics;
 using System.IO;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using Avalonia.Threading;
 using VoltAir.Views.Components;
 
-namespace VoltAir.Views.Pages.SettingsView;
-
-public partial class P2 : UserControl
+namespace VoltAir.Views.Pages.SettingsView
 {
-    // Toast service for notifications
-    private ToastService _toastService;
-
-    public P2()
+    public partial class P2 : UserControl
     {
-        InitializeComponent();
-        string voltAirPath = Path.Combine(Path.GetTempPath(), "VoltAir");
-        CacheDirectoryPathTextBlock.Text = $"Cache Directory: {voltAirPath}";
-        
-        // Initialize the toast service
-        _toastService = new ToastService(ToastContainer);
-    }
+        private ToastService _toastService;
 
-    private async void OnClearCacheClick(object? sender, RoutedEventArgs e)
-    {
-        try
+        public P2()
         {
+            InitializeComponent();
             string voltAirPath = Path.Combine(Path.GetTempPath(), "VoltAir");
-            DirectoryInfo directory = new DirectoryInfo(voltAirPath);
-            
-            if (directory.Exists)
-            {
-                directory.Delete(true);
+            CacheDirectoryPathTextBlock.Text = $"Cache Directory: {voltAirPath}";
+            _toastService = new ToastService(ToastContainer);
+        }
 
-                // Show success toast instead of updating status text
-                await _toastService.ShowSuccess("Cache cleared successfully", "Cache Clear");
+        private async void OnClearCacheClick(object? sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bool success = true;
+                string voltAirPath = Path.Combine(Path.GetTempPath(), "VoltAir");
+                string masPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "VoltAir", "MAS");
                 
-                // Still update status text for additional feedback
-            }
-            else
-            {
-                // Show warning toast
-                await _toastService.ShowWarning("VoltAir cache directory not found", "Directory Not Found");
-            }
-        }
-        catch (Exception ex)
-        {
-            // Show error toast
-            await _toastService.ShowError($"Error clearing cache: {ex.Message}", "Error");
-        }
-    }
-
-    private async void OnAccessCacheDirectoryClick(object? sender, RoutedEventArgs e)
-    {
-        try
-        {
-            string voltAirPath = Path.Combine(Path.GetTempPath(), "VoltAir");
-            
-            if (Directory.Exists(voltAirPath))
-            {
-                Process.Start(new ProcessStartInfo
+                // Delete VoltAir temp directory
+                if (Directory.Exists(voltAirPath))
                 {
-                    FileName = voltAirPath,
-                    UseShellExecute = true
-                });
-                
-                // Show info toast
-                await _toastService.ShowInfo("Opening cache directory", "File Explorer");
+                    Directory.Delete(voltAirPath, true);
+                    await _toastService.ShowSuccess("VoltAir cache cleared", "Success");
+                }
+                else
+                {
+                    success = false;
+                    await _toastService.ShowWarning("VoltAir cache not found", "Notice");
+                }
+
+                // Delete MAS directory
+                if (Directory.Exists(masPath))
+                {
+                    Directory.Delete(masPath, true);
+                    await _toastService.ShowSuccess("MAS activation files cleared", "Success");
+                }
+                else
+                {
+                    if (!success) // Only show warning if neither directory was found
+                    {
+                        await _toastService.ShowWarning("No cache directories found", "Notice");
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Show warning toast
-                await _toastService.ShowWarning("VoltAir cache directory not found", "Directory Not Found");
+                await _toastService.ShowError($"Error clearing cache: {ex.Message}", "Error");
             }
         }
-        catch (Exception ex)
+
+        private async void OnAccessCacheDirectoryClick(object? sender, RoutedEventArgs e)
         {
-            // Show error toast
-            await _toastService.ShowError($"Error accessing cache directory: {ex.Message}", "Error");
+            try
+            {
+                string voltAirPath = Path.Combine(Path.GetTempPath(), "VoltAir");
+                
+                if (Directory.Exists(voltAirPath))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = voltAirPath,
+                        UseShellExecute = true
+                    });
+                    await _toastService.ShowInfo("Opening cache directory", "File Explorer");
+                }
+                else
+                {
+                    await _toastService.ShowWarning("Cache directory not found", "Notice");
+                }
+            }
+            catch (Exception ex)
+            {
+                await _toastService.ShowError($"Error: {ex.Message}", "Error");
+            }
         }
     }
 }
