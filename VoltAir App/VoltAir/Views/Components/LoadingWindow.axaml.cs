@@ -4,14 +4,29 @@ using Avalonia.Media;
 using Avalonia.Media.Transformation;
 using Avalonia.Threading;
 using System;
+using Avalonia.VisualTree;
 
 namespace VoltAir.Views.Components
 {
     public partial class LoadingWindow : Window
     {
+        private double _adjustedThickness = 0.5;
+        public double AdjustedThickness
+        {
+            get => _adjustedThickness;
+            set
+            {
+                if (_adjustedThickness != value)
+                {
+                    _adjustedThickness = value;
+                }
+            }
+        }
+
         public LoadingWindow()
         {
             InitializeComponent();
+            this.Opened += OnWindowOpened;
             Opacity = 0;
             LoadingBorder.RenderTransform = TransformOperations.Parse("scale(0.9)");
         }
@@ -60,5 +75,21 @@ namespace VoltAir.Views.Components
 
             timer.Start();
         }
+        
+        private void OnWindowOpened(object? sender, EventArgs e)
+        {
+            var scaling = this.GetVisualRoot()?.RenderScaling ?? 1.0;
+            double adjustedThickness = scaling <= 1.0 ? 1.0 : 0.5;
+            var dpi = 96 * scaling;
+    
+            var resources = this.Resources;
+            if (resources != null)
+            {
+                resources["ThicknessResource"] = new Thickness(adjustedThickness);
+            }
+    
+            // Console.WriteLine($"Scaling: {scaling}, Adjusted Thickness: {adjustedThickness}, Calculated DPI: {dpi}");
+        }
+
     }
 }
