@@ -9,7 +9,7 @@ using VoltAir.Views.Components;
 
 namespace VoltAir.Views.Components.AppManager
 {
-    public partial class AdvancedCleanup : UserControl
+    public partial class AdvancedCleanup : Window
     {
         private StackPanel applicationsPanel;
         private ToastService _toastService;
@@ -35,8 +35,8 @@ namespace VoltAir.Views.Components.AppManager
 
             foreach (var app in applications)
             {
-                var cardBorder = new Border 
-                { 
+                var cardBorder = new Border
+                {
                     Classes = { "Cards" },
                     Padding = new Thickness(15),
                     Margin = new Thickness(0, 0, 0, 10)
@@ -49,8 +49,8 @@ namespace VoltAir.Views.Components.AppManager
                 };
 
                 // App Name
-                var appNameLabel = new TextBlock 
-                { 
+                var appNameLabel = new TextBlock
+                {
                     Text = app.Name,
                     FontWeight = FontWeight.Bold,
                     FontSize = 14,
@@ -60,8 +60,8 @@ namespace VoltAir.Views.Components.AppManager
                 Grid.SetColumn(appNameLabel, 0);
 
                 // App Size
-                var appSizeLabel = new TextBlock 
-                { 
+                var appSizeLabel = new TextBlock
+                {
                     Text = app.FormattedSize,
                     FontSize = 12,
                     Foreground = new SolidColorBrush(0xFF888888),
@@ -86,8 +86,8 @@ namespace VoltAir.Views.Components.AppManager
                 }
 
                 // Uninstall Button
-                var uninstallButton = new Button 
-                { 
+                var uninstallButton = new Button
+                {
                     Content = "Uninstall",
                     Classes = { "Secondary" },
                     HorizontalAlignment = HorizontalAlignment.Right,

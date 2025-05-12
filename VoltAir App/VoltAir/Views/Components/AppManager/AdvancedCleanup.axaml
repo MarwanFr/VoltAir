@@ -1,10 +1,11 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:components="clr-namespace:VoltAir.Views.Components"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="VoltAir.Views.Components.AppManager.AdvancedCleanup">
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:components="clr-namespace:VoltAir.Views.Components"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="VoltAir.Views.Components.AppManager.AdvancedCleanup"
+        Title="Advanced Cleanup" Width="800" Height="600">
     <Grid>
         <ScrollViewer>
             <StackPanel x:Name="ApplicationsPanel" Spacing="10">
@@ -22,4 +23,4 @@
                Margin="0,0,10,10"
                ZIndex="100" />
     </Grid>
-</UserControl>
+</Window>
