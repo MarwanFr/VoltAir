@@ -1,16 +1,33 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using System.Diagnostics;
 using System.Linq;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Avalonia.VisualTree;
 using VoltAir.Views.Components;
 
 namespace VoltAir.Views.Components.AppManager
 {
     public partial class AdvancedCleanup : Window
     {
+        private double _adjustedThickness = 0.5;
+        public double AdjustedThickness
+        {
+            get => _adjustedThickness;
+            set
+            {
+                if (_adjustedThickness != value)
+                {
+                    _adjustedThickness = value;
+                }
+            }
+        }
+        
         private StackPanel applicationsPanel;
         private ToastService _toastService;
 
@@ -19,6 +36,8 @@ namespace VoltAir.Views.Components.AppManager
             InitializeComponent();
             LoadApplications();
             _toastService = new ToastService(this.FindControl<Panel>("ToastContainer"));
+            
+            this.Opened += OnWindowOpened;
         }
 
         private void InitializeComponent()
@@ -26,6 +45,32 @@ namespace VoltAir.Views.Components.AppManager
             AvaloniaXamlLoader.Load(this);
             ConfirmPopup = this.FindControl<ConfirmDialog>("ConfirmPopup");
             applicationsPanel = this.FindControl<StackPanel>("ApplicationsPanel");
+        }
+        
+        private void OnPointerPressed(object sender, PointerPressedEventArgs e)
+        {
+            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            {
+                this.BeginMoveDrag(e);
+            }
+        }
+
+        private void CloseWindow(object? sender, RoutedEventArgs e) => this.Close();
+
+        private void MinimizeWindow(object? sender, RoutedEventArgs e) => this.WindowState = WindowState.Minimized;
+
+        private void ToggleMaximizeWindow(object? sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+                MaximizeButton.Content = "\ue922";
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+                MaximizeButton.Content = "\ue923";
+            }
         }
 
         private void LoadApplications()
@@ -38,8 +83,7 @@ namespace VoltAir.Views.Components.AppManager
                 var cardBorder = new Border
                 {
                     Classes = { "Cards" },
-                    Padding = new Thickness(15),
-                    Margin = new Thickness(0, 0, 0, 10)
+                    Padding = new Thickness(10),
                 };
 
                 var mainGrid = new Grid
@@ -52,7 +96,7 @@ namespace VoltAir.Views.Components.AppManager
                 var appNameLabel = new TextBlock
                 {
                     Text = app.Name,
-                    FontWeight = FontWeight.Bold,
+                    FontWeight = (FontWeight)400,
                     FontSize = 14,
                     Margin = new Thickness(0, 0, 0, 5)
                 };
@@ -144,6 +188,21 @@ namespace VoltAir.Views.Components.AppManager
                 cardBorder.Child = mainGrid;
                 applicationsPanel.Children.Add(cardBorder);
             }
+        }
+        
+        private void OnWindowOpened(object? sender, EventArgs e)
+        {
+            var scaling = this.GetVisualRoot()?.RenderScaling ?? 1.0;
+            double adjustedThickness = scaling <= 1.0 ? 1.0 : 0.5;
+            var dpi = 96 * scaling;
+    
+            var resources = this.Resources;
+            if (resources != null)
+            {
+                resources["ThicknessResource"] = new Thickness(adjustedThickness);
+            }
+    
+            // Console.WriteLine($"Scaling: {scaling}, Adjusted Thickness: {adjustedThickness}, Calculated DPI: {dpi}");
         }
     }
 }

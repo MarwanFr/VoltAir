@@ -3,24 +3,54 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:components="clr-namespace:VoltAir.Views.Components"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400"
         x:Class="VoltAir.Views.Components.AppManager.AdvancedCleanup"
-        Title="Advanced Cleanup" Width="800" Height="600">
-    <Grid>
-        <ScrollViewer>
-            <StackPanel x:Name="ApplicationsPanel" Spacing="10">
-                <!-- Applications will be added here dynamically -->
-            </StackPanel>
-        </ScrollViewer>
+        Title="Cleanup"
+        Width="650" Height="510"
+        Icon="/Assets/TaskbarLogo.png"
+        Background="{DynamicResource BgBlur}"
+        WindowStartupLocation="CenterScreen"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1">
 
-        <!-- CONFIRMATION POPUP -->
-        <components:ConfirmDialog x:Name="ConfirmPopup" IsVisible="False"/>
+        <Grid RowDefinitions="40, *">
+            <!-- TitleBar -->
+            <Grid HorizontalAlignment="Stretch"
+                  Background="Transparent"
+                  PointerPressed="OnPointerPressed">
+                <TextBlock Text="VoltAir" VerticalAlignment="Center" FontSize="12" Margin="10, 4, 0, 0"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Classes="TitleBarButton"
+                            Content="&#xe921;"
+                            Click="MinimizeWindow"/>
 
-        <!-- Toast Container -->
-        <Panel x:Name="ToastContainer"
-               HorizontalAlignment="Stretch"
-               VerticalAlignment="Bottom"
-               Margin="0,0,10,10"
-               ZIndex="100" />
-    </Grid>
+                    <Button x:Name="MaximizeButton"
+                            Classes="TitleBarButton"
+                            Content="&#xe922;"
+                            Click="ToggleMaximizeWindow"/>
+
+                    <Button Classes="TitleBarButton Close"
+                            Content="&#xe8bb;"
+                            Click="CloseWindow"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+                <ScrollViewer>
+                    <StackPanel x:Name="ApplicationsPanel" Margin="10" Spacing="10">
+                        <!-- Applications will be added here dynamically -->
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- CONFIRMATION POPUP -->
+                <components:ConfirmDialog x:Name="ConfirmPopup" IsVisible="False"/>
+
+                <!-- Toast Container -->
+                <Panel x:Name="ToastContainer"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Bottom"
+                       Margin="10,0,10,10"
+                       ZIndex="100" />
+            </Grid>
+        </Grid>
 </Window>
