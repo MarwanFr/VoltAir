@@ -48,21 +48,11 @@
 
     <ItemGroup>
         <!-- Copie du fichier RemoveEdge.exe -->
-        <Content Include="Resources\RemoveEdge.exe">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
 
         <!-- Copie des fichiers .reg -->
-        <Content Include="Resources\Regedit\DisableTelemetry.reg">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Resources\Regedit\EnableTelemetry.reg">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+        <EmbeddedResource Include="Resources\Regedit\DisableTelemetry.reg" />
+        <EmbeddedResource Include="Resources\Regedit\EnableTelemetry.reg" />
         <None Remove="Resources\DefenderRemover.exe" />
-        <Content Include="Resources\DefenderRemover.exe">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
         <None Update=".env">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
