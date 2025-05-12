@@ -6,6 +6,11 @@ using System.Diagnostics;
 using Avalonia.Threading;
 using VoltAir.Views.Components;
 using System.Management;
+using System.Net.Http;
+using System.Reflection;
+using System.Threading.Tasks;
+using Avalonia.VisualTree;
+using VoltAir.Views.Components.AppManager;
 
 namespace VoltAir.Views.Pages
 {
@@ -18,8 +23,9 @@ namespace VoltAir.Views.Pages
         {
             InitializeComponent();
             TelemetryToggle.IsChecked = IsTelemetryEnabled();
-            WindowsUpdateToggle.IsChecked = IsServiceRunning("wuauserv") || IsServiceRunning("WaaSMedicSvc") || IsServiceRunning("DoSvc");
-            
+            WindowsUpdateToggle.IsChecked = IsServiceRunning("wuauserv") || IsServiceRunning("WaaSMedicSvc") ||
+                                            IsServiceRunning("DoSvc");
+
             // Initialize toast notifications
             _toastService = new ToastService(this.FindControl<Panel>("ToastContainer"));
 
@@ -35,8 +41,14 @@ namespace VoltAir.Views.Pages
             cleanFoldersWindow.Show();
         }
 
+        
+
         private async void OnUninstallEdgeButtonClick(object sender, RoutedEventArgs e)
         {
+            string tempPath = Path.Combine(Path.GetTempPath(), "VoltAir");
+            string filePath = Path.Combine(tempPath, "RemoveEdge.exe");
+            string url = "https://github.com/ShadowWhisperer/Remove-MS-Edge/raw/refs/heads/main/Remove-NoTerm.exe";
+
             if (_toastService == null)
             {
                 Debug.WriteLine("ToastService is null!");
@@ -46,12 +58,25 @@ namespace VoltAir.Views.Pages
             string status = "in progress";
             try
             {
-                string exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "RemoveEdge.exe");
-                if (!File.Exists(exePath)) return;
+                // Ensure the directory exists
+                if (!Directory.Exists(tempPath))
+                {
+                    Directory.CreateDirectory(tempPath);
+                }
+
+                // Download the file
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+
+                    byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
+                    await File.WriteAllBytesAsync(filePath, fileBytes);
+                }
 
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = exePath,
+                    FileName = filePath,
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     WindowStyle = ProcessWindowStyle.Hidden
@@ -64,6 +89,7 @@ namespace VoltAir.Views.Pages
                 status = "error";
                 await _toastService.ShowError($"Error removing Microsoft Edge: {ex.Message}", "Edge Removal Error");
             }
+
             Debug.WriteLine($"status: {status}");
         }
 
@@ -96,9 +122,10 @@ namespace VoltAir.Views.Pages
                 status = "error";
                 await _toastService.ShowError($"Error toggling telemetry: {ex.Message}", "Telemetry Error");
             }
+
             Debug.WriteLine($"status: {status}");
         }
-        
+
         private async void OnPowerSaverToggled(object sender, RoutedEventArgs e)
         {
             if (_toastService == null) return;
@@ -135,7 +162,7 @@ namespace VoltAir.Views.Pages
 
             Process.Start(process);
         }
-        
+
         private async void OnWindowsUpdateToggled(object sender, RoutedEventArgs e)
         {
             if (_toastService == null)
@@ -169,9 +196,9 @@ namespace VoltAir.Views.Pages
                 status = "error";
                 await _toastService.ShowError($"Error toggling Windows Update: {ex.Message}", "Windows Update Error");
             }
+
             Debug.WriteLine($"status: {status}");
         }
-
 
         private void StartService(string serviceName)
         {
@@ -180,8 +207,9 @@ namespace VoltAir.Views.Pages
                 FileName = "powershell.exe",
                 Arguments = $"Start-Service -Name {serviceName} -Force",
                 Verb = "runas",
-                UseShellExecute = true,
-                CreateNoWindow = true
+                UseShellExecute = false, // Set to false to suppress any dialogs
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
             };
 
             Process.Start(process);
@@ -194,18 +222,21 @@ namespace VoltAir.Views.Pages
                 FileName = "powershell.exe",
                 Arguments = $"Stop-Service -Name {serviceName} -Force",
                 Verb = "runas",
-                UseShellExecute = true,
-                CreateNoWindow = true
+                UseShellExecute = false, // Set to false to suppress any dialogs
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
             };
 
             Process.Start(process);
         }
 
+
         private bool IsServiceRunning(string serviceName)
         {
             try
             {
-                using (var searcher = new ManagementObjectSearcher($"SELECT State FROM Win32_Service WHERE Name = '{serviceName}'"))
+                using (var searcher =
+                       new ManagementObjectSearcher($"SELECT State FROM Win32_Service WHERE Name = '{serviceName}'"))
                 {
                     foreach (var obj in searcher.Get())
                     {
@@ -221,20 +252,39 @@ namespace VoltAir.Views.Pages
             {
                 Debug.WriteLine($"Error checking service status: {ex.Message}");
             }
+
             return false;
         }
 
-        
         private void RunRegFile(string fileName)
         {
-            string filePath = Path.Combine(regPath, fileName);
+            // Get the current assembly
+            var assembly = Assembly.GetExecutingAssembly();
 
-            if (File.Exists(filePath))
+            // Construct the resource name, including the "Regedit" subfolder
+            string resourceName = $"{assembly.GetName().Name}.Resources.Regedit.{fileName}";
+
+            // Get the stream of the embedded resource
+            using (Stream resourceStream = assembly.GetManifestResourceStream(resourceName))
             {
+                if (resourceStream == null)
+                {
+                    throw new Exception($"Embedded resource '{resourceName}' not found.");
+                }
+
+                // Create a temporary file to write the resource to
+                string tempFilePath = Path.Combine(Path.GetTempPath(), fileName);
+
+                using (FileStream fileStream = new FileStream(tempFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    resourceStream.CopyTo(fileStream);
+                }
+
+                // Run the reg file
                 var process = new ProcessStartInfo
                 {
                     FileName = "regedit.exe",
-                    Arguments = $"/s \"{filePath}\"",
+                    Arguments = $"/s \"{tempFilePath}\"",
                     Verb = "runas",
                     UseShellExecute = true
                 };
@@ -243,15 +293,19 @@ namespace VoltAir.Views.Pages
                 {
                     Process.Start(process);
                 }
-                catch (System.ComponentModel.Win32Exception) { }
+                catch (System.ComponentModel.Win32Exception)
+                {
+                }
             }
         }
+
 
         private bool IsTelemetryEnabled()
         {
             try
             {
-                string regKeyPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection";
+                string regKeyPath =
+                    @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection";
                 string valueName = "AllowTelemetry";
 
                 object regValue = Microsoft.Win32.Registry.GetValue(regKeyPath, valueName, null);
@@ -312,7 +366,8 @@ namespace VoltAir.Views.Pages
 
                         if (args.Success)
                         {
-                            _ = _toastService.ShowSuccess("Windows 11 IoT installation started successfully", "Installation Success");
+                            _ = _toastService.ShowSuccess("Windows 11 IoT installation started successfully",
+                                "Installation Success");
                         }
                         else
                         {
@@ -321,13 +376,7 @@ namespace VoltAir.Views.Pages
                     });
                 };
 
-                installWindow.Closed += (s, args) =>
-                {
-                    Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        IsEnabled = true;
-                    });
-                };
+                installWindow.Closed += (s, args) => { Dispatcher.UIThread.InvokeAsync(() => { IsEnabled = true; }); };
 
                 installWindow.Show();
                 await installWindow.StartInstallationAsync();
@@ -341,6 +390,11 @@ namespace VoltAir.Views.Pages
 
         private async void OnUninstallDefenderButtonClick(object sender, RoutedEventArgs e)
         {
+            string tempPath = Path.Combine(Path.GetTempPath(), "VoltAir");
+            string filePath = Path.Combine(tempPath, "DefenderRemover.exe");
+            string url =
+                "https://github.com/ionuttbara/windows-defender-remover/releases/download/release_def_12_8_2/DefenderRemover.exe";
+
             if (_toastService == null)
             {
                 Debug.WriteLine("ToastService is null!");
@@ -350,14 +404,27 @@ namespace VoltAir.Views.Pages
             string status = "in progress";
             try
             {
-                string exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "DefenderRemover.exe");
-                if (!File.Exists(exePath)) return;
+                // Ensure the directory exists
+                if (!Directory.Exists(tempPath))
+                {
+                    Directory.CreateDirectory(tempPath);
+                }
+
+                // Download the file
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+
+                    byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
+                    await File.WriteAllBytesAsync(filePath, fileBytes);
+                }
 
                 var process = new Process
                 {
                     StartInfo = new ProcessStartInfo
                     {
-                        FileName = exePath,
+                        FileName = filePath,
                         UseShellExecute = false,
                         RedirectStandardInput = true,
                         RedirectStandardOutput = true,
@@ -383,8 +450,10 @@ namespace VoltAir.Views.Pages
             catch (Exception ex)
             {
                 status = "error";
-                await _toastService.ShowError($"Error removing Windows Defender: {ex.Message}", "Defender Removal Error");
+                await _toastService.ShowError($"Error removing Windows Defender: {ex.Message}",
+                    "Defender Removal Error");
             }
+
             Debug.WriteLine($"status: {status}");
         }
 
@@ -430,6 +499,19 @@ namespace VoltAir.Views.Pages
         {
             DefenderConfirmPopup.Canceled -= OnCancelRemoveEdge;
             _ = _toastService?.ShowInfo("Microsoft Edge removal canceled", "Removal Canceled");
+        }
+
+        private void OnOpenAdvancedCleanupClick(object sender, RoutedEventArgs e)
+        {
+            var advancedCleanup = new AdvancedCleanup();
+            var window = new Window
+            {
+                Content = advancedCleanup,
+                Width = 800,
+                Height = 600,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+            window.ShowDialog(this.GetVisualRoot() as Window);
         }
     }
 }

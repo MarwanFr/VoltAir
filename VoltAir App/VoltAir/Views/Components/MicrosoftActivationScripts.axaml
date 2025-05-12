@@ -1,0 +1,16 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="VoltAir.Views.Components.MicrosoftActivationScripts"
+             xmlns:components="clr-namespace:VoltAir.Views.Components">
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Button Content="Activer Windows" Click="OnActivateWindowsClick" Width="200" Height="40"/>
+
+        <!-- Toast Container -->
+        <Panel x:Name="ToastContainer"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Bottom"
+               Margin="10,0,10,10"
+               ZIndex="100" />
+    </StackPanel>
+</UserControl>
