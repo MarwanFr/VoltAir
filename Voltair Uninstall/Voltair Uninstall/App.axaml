@@ -23,6 +23,11 @@
              
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Main Theme Dictionary Shared -->
+                <ResourceInclude Source="UI/ThemeResources.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
             <ResourceDictionary.ThemeDictionaries>
                 <!-- Light Theme -->
                 <ResourceInclude Source="UI/ColorTheme/Light.axaml" x:Key="Light"/>

@@ -2,17 +2,33 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 
 namespace Voltair_Uninstall.Views
 {
     public partial class MainWindow : Window
     {
+        private double _adjustedThickness = 0.5;
+        public double AdjustedThickness
+        {
+            get => _adjustedThickness;
+            set
+            {
+                if (_adjustedThickness != value)
+                {
+                    _adjustedThickness = value;
+                }
+            }
+        }
+        
         public MainWindow()
         {
             InitializeComponent();
+            this.Opened += OnWindowOpened;
         }
 
         private void OnPointerPressed(object sender, PointerPressedEventArgs e)
@@ -125,6 +141,21 @@ namespace Voltair_Uninstall.Views
 
             process.Start();
             await process.WaitForExitAsync();
+        }
+        
+        private void OnWindowOpened(object? sender, EventArgs e)
+        {
+            var scaling = this.GetVisualRoot()?.RenderScaling ?? 1.0;
+            double adjustedThickness = scaling <= 1.0 ? 1.0 : 0.5;
+            var dpi = 96 * scaling;
+    
+            var resources = this.Resources;
+            if (resources != null)
+            {
+                resources["ThicknessResource"] = new Thickness(adjustedThickness);
+            }
+    
+            // Console.WriteLine($"Scaling: {scaling}, Adjusted Thickness: {adjustedThickness}, Calculated DPI: {dpi}");
         }
     }
 }
