@@ -6,7 +6,7 @@
         <Setter Property="Background" Value="{DynamicResource BgBlur}" />
         <Setter Property="BorderBrush" Value="{DynamicResource CardBorder}" />
         <Setter Property="CornerRadius" Value="6" />
-        <Setter Property="BorderThickness" Value="0.5" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ThicknessResource}" />
         <Setter Property="Padding" Value="10,0,0,0" />
         <Setter Property="FontWeight" Value="300"/>
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -17,7 +17,7 @@
                     <Border
                         Background="{TemplateBinding Background}"
                         BorderBrush="{DynamicResource CardBorder}"
-                        BorderThickness="0.5"
+                        BorderThickness="{DynamicResource ThicknessResource}"
                         CornerRadius="{TemplateBinding CornerRadius}"
                         Height="21"
                         Width="21"

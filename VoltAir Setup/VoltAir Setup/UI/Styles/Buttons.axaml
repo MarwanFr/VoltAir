@@ -70,7 +70,7 @@
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
-        <Setter Property="BorderThickness" Value="0.5"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource ThicknessResource}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonSecondaryBorder}"/>
         <Setter Property="Padding" Value="10 5"/>
         <Setter Property="CornerRadius" Value="5"/>

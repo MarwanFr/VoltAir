@@ -15,7 +15,6 @@
         <StyleInclude Source="UI/Styles/CheckBox.axaml"/>
         <StyleInclude Source="UI/Styles/ComboBox.axaml"/>
         <StyleInclude Source="UI/Styles/ScrollViewer.axaml"/>
-        <StyleInclude Source="UI/Styles/ToggleButtons.axaml"/>
         <StyleInclude Source="UI/Styles/ToggleSwitch.axaml"/>
         <StyleInclude Source="UI/Styles/Cards.axaml"/>
         <StyleInclude Source="UI/Styles/ProgressBar.axaml"/>
@@ -23,6 +22,11 @@
              
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Main Theme Dictionary Shared -->
+                <ResourceInclude Source="UI/ThemeResources.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
             <ResourceDictionary.ThemeDictionaries>
                 <!-- Light Theme -->
                 <ResourceInclude Source="UI/ColorTheme/Light.axaml" x:Key="Light"/>

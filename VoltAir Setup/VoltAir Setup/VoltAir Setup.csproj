@@ -53,4 +53,19 @@
       <None Remove="Resources\Files\uninstall.exe" />
       <None Remove="Resources\Files\install.zip" />
     </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="UI\ColorTheme\Dark.axaml" />
+      <UpToDateCheckInput Remove="UI\ColorTheme\Light.axaml" />
+      <UpToDateCheckInput Remove="UI\Controls\CircularProgressBar.axaml" />
+      <UpToDateCheckInput Remove="UI\Styles\Buttons.axaml" />
+      <UpToDateCheckInput Remove="UI\Styles\Cards.axaml" />
+      <UpToDateCheckInput Remove="UI\Styles\CheckBox.axaml" />
+      <UpToDateCheckInput Remove="UI\Styles\ComboBox.axaml" />
+      <UpToDateCheckInput Remove="UI\Styles\ProgressBar.axaml" />
+      <UpToDateCheckInput Remove="UI\Styles\ScrollViewer.axaml" />
+      <UpToDateCheckInput Remove="UI\Styles\SelectableTextBlock.axaml" />
+      <UpToDateCheckInput Remove="UI\Styles\ToggleButtons.axaml" />
+      <UpToDateCheckInput Remove="UI\Styles\ToggleSwitch.axaml" />
+    </ItemGroup>
 </Project>
