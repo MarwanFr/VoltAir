@@ -516,14 +516,7 @@ namespace VoltAir.Views.Pages
         private void OnOpenAdvancedCleanupClick(object sender, RoutedEventArgs e)
         {
             var advancedCleanup = new AdvancedCleanup();
-            var window = new Window
-            {
-                Content = advancedCleanup,
-                Width = 800,
-                Height = 600,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            window.ShowDialog(this.GetVisualRoot() as Window);
+            advancedCleanup.ShowDialog(this.GetVisualRoot() as Window);
         }
         
         private bool IsGameModeEnabled()
