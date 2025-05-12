@@ -41,7 +41,18 @@ namespace VoltAir.Views.Pages
             cleanFoldersWindow.Show();
         }
 
-        
+        private void OnOpenMicrosoftActivationScriptsClick(object sender, RoutedEventArgs e)
+        {
+            var activationScripts = new MicrosoftActivationScripts();
+            var window = new Window
+            {
+                Content = activationScripts,
+                Width = 400,
+                Height = 200,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+            window.ShowDialog(this.GetVisualRoot() as Window);
+        }
 
         private async void OnUninstallEdgeButtonClick(object sender, RoutedEventArgs e)
         {

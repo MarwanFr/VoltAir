@@ -112,7 +112,20 @@
                         </StackPanel>
                     </ScrollViewer>
                 </Border>
-                
+                <!-- Activate Windows -->
+                <Border Classes="Cards" Width="250" Padding="10" Margin="0, 0, 10, 10">
+                    <Grid RowDefinitions="*,10,Auto">
+                        <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Activate Windows" FontWeight="500" FontSize="15" Margin="0,0,0,4"/>
+                                <TextBlock Text="Activate your copy of Windows to enjoy all the features."
+                                           TextWrapping="Wrap" FontSize="12" FontWeight="300" MaxWidth="220"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <Button Grid.Row="2" Content="Activate Windows" HorizontalAlignment="Stretch" Classes="Secondary"
+                                Click="OnOpenMicrosoftActivationScriptsClick"/>
+                    </Grid>
+                </Border>
                 <!-- ADVANCED CLEANUP -->
                 <Border Classes="Cards" Padding="10" Margin="0, 0, 10, 10">
                     <Grid RowDefinitions="*, 10, Auto">
