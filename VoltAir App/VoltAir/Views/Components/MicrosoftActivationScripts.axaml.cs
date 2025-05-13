@@ -7,19 +7,61 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Input;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using Microsoft.Win32;
 
 namespace VoltAir.Views.Components
 {
     public partial class MicrosoftActivationScripts : Window
     {
+        private double _adjustedThickness = 0.5;
+        public double AdjustedThickness
+        {
+            get => _adjustedThickness;
+            set
+            {
+                if (_adjustedThickness != value)
+                {
+                    _adjustedThickness = value;
+                }
+            }
+        }
+        
         private Process _activationProcess;
         private readonly HttpClient _httpClient = new HttpClient();
 
         public MicrosoftActivationScripts()
         {
             InitializeComponent();
+            this.Opened += OnWindowOpened;
+        }
+        
+        private void OnPointerPressed(object sender, PointerPressedEventArgs e)
+        {
+            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            {
+                this.BeginMoveDrag(e);
+            }
+        }
+
+        private void CloseWindow(object? sender, RoutedEventArgs e) => this.Close();
+
+        private void MinimizeWindow(object? sender, RoutedEventArgs e) => this.WindowState = WindowState.Minimized;
+
+        private void ToggleMaximizeWindow(object? sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+                MaximizeButton.Content = "\ue922";
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+                MaximizeButton.Content = "\ue923";
+            }
         }
 
         private async void OnActivateWindowsClick(object? sender, RoutedEventArgs e)
@@ -168,5 +210,21 @@ namespace VoltAir.Views.Components
                 toastContainer.Children.Remove(toast);
             });
         }
+        
+        private void OnWindowOpened(object? sender, EventArgs e)
+        {
+            var scaling = this.GetVisualRoot()?.RenderScaling ?? 1.0;
+            double adjustedThickness = scaling <= 1.0 ? 1.0 : 0.5;
+            var dpi = 96 * scaling;
+    
+            var resources = this.Resources;
+            if (resources != null)
+            {
+                resources["ThicknessResource"] = new Thickness(adjustedThickness);
+            }
+    
+            // Console.WriteLine($"Scaling: {scaling}, Adjusted Thickness: {adjustedThickness}, Calculated DPI: {dpi}");
+        }
+        
     }
 }

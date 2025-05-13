@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="VoltAir.Views.MainWindow"
         Width="1000"
-        Height="550"
+        Height="570"
         MinWidth="600"
         MinHeight="250"
         Icon="/Assets/TaskbarLogo.png"
