@@ -19,7 +19,6 @@
         <Folder Include="Models\"/>
         <AvaloniaResource Include="Assets\**"/>
         <Folder Include="Resources\" />
-        <Folder Include="Resources\Files\" />
         <None Remove="TaskbarLogo.ico" />
         <AvaloniaResource Include="TaskbarLogo.ico" />
     </ItemGroup>
@@ -66,5 +65,10 @@
       <UpToDateCheckInput Remove="UI\Styles\SelectableTextBlock.axaml" />
       <UpToDateCheckInput Remove="UI\Styles\ToggleButtons.axaml" />
       <UpToDateCheckInput Remove="UI\Styles\ToggleSwitch.axaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Resources\Files\install.zip" />
+      <EmbeddedResource Include="Resources\Files\uninstall.exe" />
     </ItemGroup>
 </Project>
