@@ -29,11 +29,6 @@ namespace VoltAir.Views.Pages
 
             // Initialize toast notifications
             _toastService = new ToastService(this.FindControl<Panel>("ToastContainer"));
-
-            if (_toastService == null)
-            {
-                Debug.WriteLine("ToastContainer not found!");
-            }
         }
 
         private void OnOpenCleanFoldersWindowClick(object sender, RoutedEventArgs e)
@@ -51,6 +46,34 @@ namespace VoltAir.Views.Pages
             window.ShowDialog(this.GetVisualRoot() as Window);
         }
 
+        private async Task DisableDefenderForDownloadsAsync()
+        {
+            try
+            {
+                // Disable Windows Defender using PowerShell
+                var processInfo = new ProcessStartInfo
+                {
+                    FileName = "powershell.exe",
+                    Arguments = "Set-MpPreference -DisableRealtimeMonitoring $true",
+                    Verb = "runas", // Run as administrator
+                    UseShellExecute = true,
+                    CreateNoWindow = true
+                };
+                
+                Process.Start(processInfo);
+                
+                // Wait to ensure command has time to execute
+                await Task.Delay(1500);
+                
+                await _toastService.ShowInfo("Windows Defender temporarily disabled for download", "Security");
+            }
+            catch (Exception ex)
+            {
+                await _toastService.ShowError($"Failed to disable Windows Defender: {ex.Message}", "Security Error");
+                throw;
+            }
+        }
+
         private async void OnUninstallEdgeButtonClick(object sender, RoutedEventArgs e)
         {
             string tempPath = Path.Combine(Path.GetTempPath(), "VoltAir");
@@ -59,13 +82,14 @@ namespace VoltAir.Views.Pages
 
             if (_toastService == null)
             {
-                Debug.WriteLine("ToastService is null!");
                 return;
             }
 
-            string status = "in progress";
             try
             {
+                // Disable Windows Defender before download
+                await DisableDefenderForDownloadsAsync();
+
                 // Ensure the directory exists
                 if (!Directory.Exists(tempPath))
                 {
@@ -89,49 +113,39 @@ namespace VoltAir.Views.Pages
                     CreateNoWindow = true,
                     WindowStyle = ProcessWindowStyle.Hidden
                 });
-                status = "done";
-                await _toastService.ShowSuccess("Microsoft Edge removed successfully", "Edge Removal");
+                
+                await _toastService.ShowSuccess("Microsoft Edge removal started successfully", "Edge Removal");
             }
             catch (Exception ex)
             {
-                status = "error";
                 await _toastService.ShowError($"Error removing Microsoft Edge: {ex.Message}", "Edge Removal Error");
             }
-
-            Debug.WriteLine($"status: {status}");
         }
 
-        private async void OnTelemetryToggled(object sender, RoutedEventArgs e)
+        private void OnTelemetryToggled(object sender, RoutedEventArgs e)
         {
             if (_toastService == null)
             {
-                Debug.WriteLine("ToastService is null!");
                 return;
             }
 
-            string status = "in progress";
             try
             {
                 if (TelemetryToggle.IsChecked == true)
                 {
                     RunRegFile("EnableTelemetry.reg");
-                    await _toastService.ShowInfo("Telemetry enabled", "Telemetry");
+                    _toastService.ShowInfo("Telemetry enabled", "Telemetry");
                 }
                 else
                 {
                     RunRegFile("DisableTelemetry.reg");
-                    await _toastService.ShowInfo("Telemetry disabled", "Telemetry");
+                    _toastService.ShowInfo("Telemetry disabled", "Telemetry");
                 }
-
-                status = "done";
             }
             catch (Exception ex)
             {
-                status = "error";
-                await _toastService.ShowError($"Error toggling telemetry: {ex.Message}", "Telemetry Error");
+                _toastService.ShowError($"Error toggling telemetry: {ex.Message}", "Telemetry Error");
             }
-
-            Debug.WriteLine($"status: {status}");
         }
 
         private async void OnPowerSaverToggled(object sender, RoutedEventArgs e)
@@ -175,11 +189,9 @@ namespace VoltAir.Views.Pages
         {
             if (_toastService == null)
             {
-                Debug.WriteLine("ToastService is null!");
                 return;
             }
 
-            string status = "in progress";
             try
             {
                 if (WindowsUpdateToggle.IsChecked == true)
@@ -196,16 +208,11 @@ namespace VoltAir.Views.Pages
                     StopService("DoSvc");
                     await _toastService.ShowInfo("Windows Update disabled", "Windows Update");
                 }
-
-                status = "done";
             }
             catch (Exception ex)
             {
-                status = "error";
                 await _toastService.ShowError($"Error toggling Windows Update: {ex.Message}", "Windows Update Error");
             }
-
-            Debug.WriteLine($"status: {status}");
         }
 
         private void StartService(string serviceName)
@@ -238,7 +245,6 @@ namespace VoltAir.Views.Pages
             Process.Start(process);
         }
 
-
         private bool IsServiceRunning(string serviceName)
         {
             try
@@ -258,7 +264,7 @@ namespace VoltAir.Views.Pages
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error checking service status: {ex.Message}");
+                // Silent failure
             }
 
             return false;
@@ -307,7 +313,6 @@ namespace VoltAir.Views.Pages
             }
         }
 
-
         private bool IsTelemetryEnabled()
         {
             try
@@ -329,7 +334,6 @@ namespace VoltAir.Views.Pages
         {
             if (DefenderConfirmPopup == null)
             {
-                Debug.WriteLine("DefenderConfirmPopup is null!");
                 return;
             }
 
@@ -357,7 +361,6 @@ namespace VoltAir.Views.Pages
         {
             if (_toastService == null)
             {
-                Debug.WriteLine("ToastService is null!");
                 return;
             }
 
@@ -405,13 +408,14 @@ namespace VoltAir.Views.Pages
 
             if (_toastService == null)
             {
-                Debug.WriteLine("ToastService is null!");
                 return;
             }
 
-            string status = "in progress";
             try
             {
+                // Disable Windows Defender before download
+                await DisableDefenderForDownloadsAsync();
+
                 // Ensure the directory exists
                 if (!Directory.Exists(tempPath))
                 {
@@ -452,17 +456,13 @@ namespace VoltAir.Views.Pages
 
                 await process.WaitForExitAsync();
 
-                status = "done";
                 await _toastService.ShowSuccess("Windows Defender removed successfully", "Defender Removal");
             }
             catch (Exception ex)
             {
-                status = "error";
                 await _toastService.ShowError($"Error removing Windows Defender: {ex.Message}",
                     "Defender Removal Error");
             }
-
-            Debug.WriteLine($"status: {status}");
         }
 
         private void OnAskRemoveDefenderClick(object? sender, RoutedEventArgs e)
