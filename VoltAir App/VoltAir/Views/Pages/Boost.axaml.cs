@@ -44,12 +44,8 @@ namespace VoltAir.Views.Pages
 
         private void OnOpenMicrosoftActivationScriptsClick(object sender, RoutedEventArgs e)
         {
-            var activationScripts = new MicrosoftActivationScripts();
-            var window = new Window
+            var window = new MicrosoftActivationScripts
             {
-                Content = activationScripts,
-                Width = 400,
-                Height = 200,
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
             window.ShowDialog(this.GetVisualRoot() as Window);

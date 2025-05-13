@@ -12,7 +12,7 @@ using Microsoft.Win32;
 
 namespace VoltAir.Views.Components
 {
-    public partial class MicrosoftActivationScripts : UserControl
+    public partial class MicrosoftActivationScripts : Window
     {
         private Process _activationProcess;
         private readonly HttpClient _httpClient = new HttpClient();
@@ -35,19 +35,19 @@ namespace VoltAir.Views.Components
             }
 
             AddLog("Windows needs activation, proceeding...");
-            
+
             string basePath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
-                "VoltAir", 
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "VoltAir",
                 "MAS");
-            
+
             string filePath = Path.Combine(basePath, "HWID_Activation.cmd");
             string url = "https://raw.githubusercontent.com/massgravel/Microsoft-Activation-Scripts/master/MAS/Separate-Files-Version/Activators/HWID_Activation.cmd";
 
             try
             {
                 AddLog("Downloading HWID activation script...");
-                
+
                 if (!Directory.Exists(basePath))
                     Directory.CreateDirectory(basePath);
 
@@ -60,7 +60,7 @@ namespace VoltAir.Views.Components
                 ShowToast("HWID Script ready", "Activation", Colors.Green);
 
                 AddLog("Starting activation process (admin required)...");
-                
+
                 _activationProcess = new Process
                 {
                     StartInfo = new ProcessStartInfo
@@ -75,13 +75,13 @@ namespace VoltAir.Views.Components
                     }
                 };
 
-                _activationProcess.OutputDataReceived += (s, args) => 
+                _activationProcess.OutputDataReceived += (s, args) =>
                 {
                     if (!string.IsNullOrEmpty(args.Data))
                         AddLog(args.Data);
                 };
 
-                _activationProcess.ErrorDataReceived += (s, args) => 
+                _activationProcess.ErrorDataReceived += (s, args) =>
                 {
                     if (!string.IsNullOrEmpty(args.Data))
                         AddLog($"ERROR: {args.Data}");
@@ -129,12 +129,12 @@ namespace VoltAir.Views.Components
 
         private void AddLog(string message)
         {
-            Dispatcher.UIThread.Post(() => 
+            Dispatcher.UIThread.Post(() =>
             {
                 var logOutput = this.FindControl<TextBox>("LogOutput");
                 logOutput.Text += $"[{DateTime.Now:HH:mm:ss}] {message}\n";
                 logOutput.CaretIndex = logOutput.Text.Length;
-                
+
                 if (logOutput.Parent is ScrollViewer scrollViewer)
                 {
                     scrollViewer.ScrollToEnd();
@@ -144,7 +144,7 @@ namespace VoltAir.Views.Components
 
         private void ShowToast(string message, string title, Color color)
         {
-            Dispatcher.UIThread.Post(async () => 
+            Dispatcher.UIThread.Post(async () =>
             {
                 var toastContainer = this.FindControl<Panel>("ToastContainer");
                 var toast = new Border
@@ -155,7 +155,7 @@ namespace VoltAir.Views.Components
                     Margin = new Thickness(0, 0, 0, 5),
                     Child = new StackPanel
                     {
-                        Children = 
+                        Children =
                         {
                             new TextBlock { Text = title, FontWeight = FontWeight.Bold },
                             new TextBlock { Text = message }
