@@ -51,8 +51,12 @@
                     </ScrollViewer>
                 </Border>
 
-                <!-- Toast notifications container -->
-                <Panel x:Name="ToastContainer" />
+                <!-- Toast Container -->
+                <Panel x:Name="ToastContainer"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Bottom"
+                       Margin="0,10,0,0"
+                       ZIndex="100" />
             </StackPanel>
         </Grid>
 </Window>
