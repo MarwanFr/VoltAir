@@ -15,7 +15,7 @@ namespace VoltAir
     {
         public static AppSettings Settings { get; private set; } = new();
         
-        private const string VERSION_APP = "1.0.0 BETA";
+        private const string VERSION_APP = "1.0.0";
         
         public override void Initialize()
         {
