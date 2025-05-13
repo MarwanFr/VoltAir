@@ -25,18 +25,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.2.1"/>
-        <PackageReference Include="Avalonia.Desktop" Version="11.2.1"/>
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.1"/>
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.1"/>
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.2.1">
+        <PackageReference Include="Avalonia" Version="11.3.0" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.3.0" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.0" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.3.0">
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
         <PackageReference Include="Supabase" Version="1.1.1" />
-        <PackageReference Include="System.Management" Version="10.0.0-preview.3.25171.5" />
-        <PackageReference Include="Avalonia.Themes.Simple" Version="11.2.1" />
+        <PackageReference Include="System.Management" Version="10.0.0-preview.4.25258.110" />
+        <PackageReference Include="Avalonia.Themes.Simple" Version="11.3.0" />
     </ItemGroup>
 
     <ItemGroup>
