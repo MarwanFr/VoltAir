@@ -91,7 +91,6 @@ This project uses the following open-source libraries:
 
 ### UI Framework
 - [Avalonia](https://github.com/AvaloniaUI/Avalonia) - Cross-platform .NET UI framework
-- [Avalonia.Themes.Fluent](https://github.com/AvaloniaUI/Avalonia) - Fluent Design theme
 - [Avalonia.Theme.Simple](https://github.com/AvaloniaUI/Avalonia) - Minimalist theme
 - [Avalonia.Svg.Skia](https://github.com/wieslawsoltes/Svg.Skia) - SVG rendering support
 - [Avalonia.Fonts.Inter](https://github.com/AvaloniaUI/Avalonia) - Inter font integration
@@ -110,6 +109,9 @@ This project uses the following open-source libraries:
 ### Development Tools
 - [Avalonia.Diagnostics](https://github.com/AvaloniaUI/Avalonia) - Debugging tools
 - [Avalonia.Desktop](https://github.com/AvaloniaUI/Avalonia) - Desktop platform support
+
+### Icons
+- [HugeIcons](https://hugeicons.com) - Modern icon library
 
 ## 📸 Screenshots
 ![image](https://github.com/user-attachments/assets/bc7a372c-af0f-4418-ab5b-3ee0bfc87df2)
