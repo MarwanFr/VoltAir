@@ -1,6 +1,6 @@
 # VoltAir
 
-**Current Version:** 1.0.0 BETA
+**Current Version:** 1.0.0
 
 ## 📋 Description
 
@@ -47,16 +47,15 @@ VoltAir is a powerful system optimization and management utility developed for W
 - [x] Telemetry configuration
 - [x] Power saving mode management
 - [x] Windows Update control
+- [x] Microsoft Activation Scripts (MAS) integration
 
 ## 📝 To Do List
 - [ ] Implementation of "Everything" search tool integration
-- [ ] Microsoft Activation Scripts (MAS) integration
 
 ## ⚠️ Warnings
 
 > **DANGER**: This software makes significant changes to your Windows system. Improper use can lead to system instability or data loss.
 
-- **Beta Version:** This version is in testing phase and may contain bugs.
 - **System Modifications:** Some features make deep modifications to your system. Use them with caution.
 - **Backup:** It is recommended to create a system backup before using advanced features.
 
@@ -115,12 +114,11 @@ This project uses the following open-source libraries:
 
 ## 📸 Screenshots
 ![image](https://github.com/user-attachments/assets/bc7a372c-af0f-4418-ab5b-3ee0bfc87df2)
-![image](https://github.com/user-attachments/assets/21e37b5c-8692-4a54-94bb-6f61952095a9)
-![image](https://github.com/user-attachments/assets/6b5acf7a-80c1-47dd-ab49-68ca70626c4c)
+![image](https://github.com/user-attachments/assets/b5a37941-ca8c-4eda-884c-c9d5a334f9d3)
+![image](https://github.com/user-attachments/assets/611062ab-3fc5-4583-b86e-15d0bc918014)
 ![image](https://github.com/user-attachments/assets/42220119-b8dc-4444-adac-99055fef1bc4)
 ![image](https://github.com/user-attachments/assets/e5f993bd-556d-496f-966c-8805bd536744)
-![image](https://github.com/user-attachments/assets/cada82a5-0605-492e-a896-79f7034071b1)
-
+![image](https://github.com/user-attachments/assets/bcf54143-9f32-49db-bc08-ef6ec45c896d)
 
 ## 📞 Support
 
