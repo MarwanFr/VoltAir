@@ -43,7 +43,7 @@ Everything is a software developed by VoidTools.</TextBlock>
                         Click="StartEverything_OnClick" IsVisible="False">
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <TextBlock VerticalAlignment="Center">Start</TextBlock>
-                        <Svg Path="../../Assets/Search/Rocket.svg" Width="17"/>
+                        <Svg Path="../../Assets/Search/Stars.svg" Width="17"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
