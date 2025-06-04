@@ -78,7 +78,7 @@ public class App : Application
                 var telemetry = new Telemetry(supabaseUrl, supabaseKey);
 
                 // Récupérer la version de l'application
-                string version = typeof(App).Assembly.GetName().Version?.ToString() ?? "1.0.0";
+                string version = typeof(App).Assembly.GetName().Version?.ToString() ?? "1.1.0";
 
                 // Envoyer les données d'installation de manière asynchrone
                 // La classe Telemetry vérifiera si l'envoi est nécessaire
