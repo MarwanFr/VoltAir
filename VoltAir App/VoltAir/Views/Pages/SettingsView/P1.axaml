@@ -22,7 +22,7 @@
                     </ComboBox>
                 </StackPanel>
 
-                <TextBlock FontWeight="300">Version : 1.0.0</TextBlock>
+                <TextBlock FontWeight="300">Version : 1.1.0</TextBlock>
                 
                 <Button Content="Reset Settings"
                         Width="200"
