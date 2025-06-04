@@ -9,6 +9,7 @@ using System.Text;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Interactivity;
+using VoltAir.Views.Components;
 
 namespace VoltAir.Views.Pages;
 
@@ -160,7 +161,6 @@ public partial class Search : UserControl
     [DllImport("Everything64.dll", CharSet = CharSet.Unicode)]
     public static extern IntPtr Everything_GetResultFileName(uint nIndex);
 
-    // Everything 1.4
     [DllImport("Everything64.dll")]
     public static extern void Everything_SetSort(uint dwSortType);
 
@@ -241,10 +241,14 @@ public partial class Search : UserControl
     public ObservableCollection<FileResult> FileResults { get; } = new();
     public ObservableCollection<FileInfo> PhotoFiles { get; } = new();
 
+    private ToastService _toastService;
+
     public Search()
     {
         InitializeComponent();
         DataContext = this;
+
+        _toastService = new ToastService(ToastContainer);
 
         IsEverythingAvailable = IsEverythingInstalled();
 
@@ -252,11 +256,13 @@ public partial class Search : UserControl
         {
             ConfigEverythingBorder.IsVisible = false;
             SearchSection.IsVisible = true;
+            _ = _toastService.ShowSuccess("Everything is available and ready to use", "Search Ready");
         }
         else
         {
             ConfigEverythingBorder.IsVisible = true;
             SearchSection.IsVisible = false;
+            _ = _toastService.ShowInfo("Everything needs to be configured for search functionality", "Configuration Required");
         }
     }
 
@@ -280,23 +286,23 @@ public partial class Search : UserControl
             ConfigEverythingArrowRightButton.IsVisible = false;
             ConfigEverythingLoadButton.IsVisible = true;
 
+            await _toastService.ShowInfo("Starting Everything download...", "Download");
+
             var downloadUrl = "https://www.voidtools.com/Everything-1.4.1.1027.x64-Setup.exe";
 
-            // Repertory for the installer
             var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var voltairFolder = Path.Combine(localAppData, "Temp", "VoltAir");
             var downloadPath = Path.Combine(voltairFolder, "Everything-Setup.exe");
 
-            // Create the directory if it does not exist
             Directory.CreateDirectory(voltairFolder);
 
-            // Download the installer
             using (var client = new WebClient())
             {
                 await client.DownloadFileTaskAsync(new Uri(downloadUrl), downloadPath);
             }
 
-            // Start the installation
+            await _toastService.ShowSuccess("Everything installer downloaded successfully", "Download Complete");
+
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -313,67 +319,132 @@ public partial class Search : UserControl
             ButtonConfigEverything.IsVisible = false;
             TextConfigEverything2.IsVisible = true;
             ButtonStartEverything.IsVisible = true;
+
+            await _toastService.ShowInfo("Everything installer has been launched. Please follow the installation wizard.", "Installation Started");
         }
         catch (Exception ex)
         {
+            ConfigEverythingArrowRightButton.IsVisible = true;
+            ConfigEverythingLoadButton.IsVisible = false;
+            
             Console.WriteLine($"Error during the installation: {ex.Message}");
+            await _toastService.ShowError($"Failed to download Everything installer: {ex.Message}", "Download Error");
         }
     }
 
-    private void StartEverything_OnClick(object? sender, RoutedEventArgs e)
+    private async void StartEverything_OnClick(object? sender, RoutedEventArgs e)
     {
         ConfigEverythingBorder.IsVisible = false;
         SearchSection.IsVisible = true;
+        
+        await _toastService.ShowSuccess("Everything configuration completed! You can now use the search feature.", "Setup Complete");
     }
 
+    
     private void Search_OnClick(object? sender, RoutedEventArgs e)
     {
-        // Clear results
-        FileResults.Clear();
-
-        // Config Everything settings
-        Everything_SetSearchW(SearchBar.Text);
-        Everything_SetRequestFlags(EVERYTHING_REQUEST_FILE_NAME | EVERYTHING_REQUEST_PATH |
-                                   EVERYTHING_REQUEST_DATE_MODIFIED | EVERYTHING_REQUEST_SIZE);
-        Everything_SetSort(EVERYTHING_SORT_DATE_MODIFIED_DESCENDING);
-
-        // Start the search
-        Everything_QueryW(true);
-        
-        // Browse results
-        var numResults = Everything_GetNumResults();
-        for (uint i = 0; i < numResults; i++)
-            try
+        try
+        {
+            if (string.IsNullOrWhiteSpace(SearchBar.Text))
             {
-                var fileName = Marshal.PtrToStringUni(Everything_GetResultFileName(i));
-                var pathBuilder = new StringBuilder(260);
-                Everything_GetResultFullPathName(i, pathBuilder, 260);
-                var fullPath = pathBuilder.ToString();
-                var directoryPath = Path.GetDirectoryName(fullPath);
+                _toastService.ShowWarning("Please enter a search term", "Search Required");
+                return;
+            }
 
-                Everything_GetResultDateModified(i, out var dateModified);
-                Everything_GetResultSize(i, out var size);
+            FileResults.Clear();
 
-                var fileResult = new FileResult
+            Everything_SetSearchW(SearchBar.Text);
+            Everything_SetRequestFlags(EVERYTHING_REQUEST_FILE_NAME | EVERYTHING_REQUEST_PATH |
+                                    EVERYTHING_REQUEST_DATE_MODIFIED | EVERYTHING_REQUEST_SIZE);
+            Everything_SetSort(EVERYTHING_SORT_DATE_MODIFIED_DESCENDING);
+
+            bool queryResult = Everything_QueryW(true);
+            
+            if (!queryResult)
+            {
+                uint error = Everything_GetLastError();
+                string errorMessage = error switch
                 {
-                    Name = fileName,
-                    Path = directoryPath,
-                    Size = size,
-                    DateModified = DateTime.FromFileTime(dateModified),
-                    IsDirectory = Everything_IsFolderResult(i)
+                    EVERYTHING_ERROR_MEMORY => "Insufficient memory to perform search",
+                    EVERYTHING_ERROR_IPC => "Everything service is not running",
+                    EVERYTHING_ERROR_REGISTERCLASSEX => "Failed to register window class",
+                    EVERYTHING_ERROR_CREATEWINDOW => "Failed to create window",
+                    EVERYTHING_ERROR_CREATETHREAD => "Failed to create thread",
+                    EVERYTHING_ERROR_INVALIDINDEX => "Invalid index",
+                    EVERYTHING_ERROR_INVALIDCALL => "Invalid call",
+                    _ => $"Unknown error (Code: {error})"
                 };
-
-                FileResults.Add(fileResult);
+                
+                _toastService.ShowError($"Search failed: {errorMessage}", "Search Error");
+                return;
             }
-            catch (Exception ex)
+            
+            var numResults = Everything_GetNumResults();
+            
+            if (numResults == 0)
             {
-                Debug.WriteLine($"Error for result {i}: {ex.Message}");
+                _toastService.ShowInfo($"No results found for '{SearchBar.Text}'", "No Results");
+                return;
             }
+
+            int processedResults = 0;
+            int errorCount = 0;
+
+            for (uint i = 0; i < numResults; i++)
+            {
+                try
+                {
+                    var fileName = Marshal.PtrToStringUni(Everything_GetResultFileName(i));
+                    var pathBuilder = new StringBuilder(260);
+                    Everything_GetResultFullPathName(i, pathBuilder, 260);
+                    var fullPath = pathBuilder.ToString();
+                    var directoryPath = Path.GetDirectoryName(fullPath);
+
+                    Everything_GetResultDateModified(i, out var dateModified);
+                    Everything_GetResultSize(i, out var size);
+
+                    var fileResult = new FileResult
+                    {
+                        Name = fileName,
+                        Path = directoryPath,
+                        Size = size,
+                        DateModified = DateTime.FromFileTime(dateModified),
+                        IsDirectory = Everything_IsFolderResult(i)
+                    };
+
+                    FileResults.Add(fileResult);
+                    processedResults++;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error for result {i}: {ex.Message}");
+                    errorCount++;
+                }
+            }
+
+            // Affiche le toast une fois que tous les résultats sont ajoutés
+            string resultMessage = $"Found {processedResults} result{(processedResults != 1 ? "s" : "")} for '{SearchBar.Text}'";
+            if (errorCount > 0)
+            {
+                resultMessage += $" ({errorCount} error{(errorCount != 1 ? "s" : "")} occurred)";
+                _toastService.ShowWarning(resultMessage, "Search Complete");
+            }
+            else
+            {
+                _toastService.ShowSuccess(resultMessage, "Search Complete");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Search error: {ex.Message}");
+            _toastService.ShowError($"An error occurred during search: {ex.Message}", "Search Error");
+        }
     }
 
-    private void OpenFile_OnClick(object? sender, RoutedEventArgs e)
+    private async void OpenFile_OnClick(object? sender, RoutedEventArgs e)
     {
         if (sender is Button button && button.Tag is FileResult fileResult)
+        {
             try
             {
                 var process = new Process
@@ -385,17 +456,18 @@ public partial class Search : UserControl
                     }
                 };
                 process.Start();
+                
+                await _toastService.ShowSuccess($"Opened {fileResult.Name}", "File Opened");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error on the open: {ex.Message}");
+                await _toastService.ShowError($"Failed to open {fileResult.Name}: {ex.Message}", "Open Error");
             }
+        }
     }
 }
 
-
-
-// Converter for file size formatting
 public class FileSizeConverter : IValueConverter
 {
     public static readonly FileSizeConverter Instance = new();

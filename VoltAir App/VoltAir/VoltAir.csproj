@@ -77,7 +77,7 @@
 
     <ItemGroup>
         <None Include="Everything64.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 </Project>
