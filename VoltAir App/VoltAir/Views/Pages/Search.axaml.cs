@@ -383,7 +383,7 @@ public partial class Search : UserControl
             
             if (numResults == 0)
             {
-                _toastService.ShowInfo($"No results found for '{SearchBar.Text}'", "No Results");
+                _toastService.ShowWarning($"No results found for '{SearchBar.Text}'", "No Results");
                 return;
             }
 
@@ -422,16 +422,12 @@ public partial class Search : UserControl
                 }
             }
 
-            // Affiche le toast une fois que tous les résultats sont ajoutés
-            string resultMessage = $"Found {processedResults} result{(processedResults != 1 ? "s" : "")} for '{SearchBar.Text}'";
+            // N'affiche le toast que s'il y a des erreurs
             if (errorCount > 0)
             {
+                string resultMessage = $"Found {processedResults} result{(processedResults != 1 ? "s" : "")} for '{SearchBar.Text}'";
                 resultMessage += $" ({errorCount} error{(errorCount != 1 ? "s" : "")} occurred)";
                 _toastService.ShowWarning(resultMessage, "Search Complete");
-            }
-            else
-            {
-                _toastService.ShowSuccess(resultMessage, "Search Complete");
             }
         }
         catch (Exception ex)
