@@ -17,6 +17,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.3.0" />
+        <PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="11.1.5" />
         <PackageReference Include="Avalonia.Desktop" Version="11.3.0" />
         <PackageReference Include="Avalonia.Svg.Skia" Version="11.3.0" />
         <PackageReference Include="Avalonia.Themes.Simple" Version="11.3.0" />
@@ -72,5 +73,11 @@
       <Compile Update="Views\Components\ProgressDialog.axaml.cs">
         <DependentUpon>ProgressDialog.axaml</DependentUpon>
       </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="Everything64.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 </Project>

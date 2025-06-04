@@ -37,7 +37,6 @@
                         <Grid ColumnDefinitions="*, Auto" Margin="10, 7">
                             <TextBlock VerticalAlignment="Bottom" x:Name="CpuNameText"
                                        FontSize="12" TextWrapping="Wrap"/>
-                            <Svg Grid.Column="1" Path="../../Assets/Perf/Cpu.svg" Height="17" Width="17" HorizontalAlignment="Right"/>
                             <Viewbox Grid.Column="1" Height="17" Width="17" HorizontalAlignment="Right">
                                 <Path Stroke="{DynamicResource Foreground}"
                                       StrokeThickness="1.2"
