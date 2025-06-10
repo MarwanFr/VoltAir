@@ -1,6 +1,6 @@
 # VoltAir
 
-**Current Version:** 1.0.0
+**Current Version:** 1.1.0
 
 ## 📋 Description
 
@@ -49,8 +49,11 @@ VoltAir is a powerful system optimization and management utility developed for W
 - [x] Windows Update control
 - [x] Microsoft Activation Scripts (MAS) integration
 
+### Quick Search
+- [x] Implementation of "Everything" search tool integration
+
 ## 📝 To Do List
-- [ ] Implementation of "Everything" search tool integration
+- [ ] Added filters and new features to the quick search page
 
 ## ⚠️ Warnings
 
@@ -117,7 +120,7 @@ This project uses the following open-source libraries:
 ![image](https://github.com/user-attachments/assets/b5a37941-ca8c-4eda-884c-c9d5a334f9d3)
 ![image](https://github.com/user-attachments/assets/611062ab-3fc5-4583-b86e-15d0bc918014)
 ![image](https://github.com/user-attachments/assets/42220119-b8dc-4444-adac-99055fef1bc4)
-![image](https://github.com/user-attachments/assets/e5f993bd-556d-496f-966c-8805bd536744)
+![image](https://github.com/user-attachments/assets/772a19e0-3a81-4672-8196-7692b9fb412f)
 ![image](https://github.com/user-attachments/assets/bcf54143-9f32-49db-bc08-ef6ec45c896d)
 
 ## 📞 Support
