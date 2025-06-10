@@ -18,20 +18,11 @@ namespace VoltAir_Setup.Services
         private readonly string _supabaseUrl;
         private readonly string _supabaseKey;
         
-        // Chemin pour stocker la date du dernier envoi de télémétrie
-        private static readonly string _telemetryFilePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "VoltAir_Setup",
-            "telemetry_last_sent.txt");
-            
         // Chemin pour stocker l'identifiant d'installation unique
         private static readonly string _installationIdPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "VoltAir_Setup",
             "installation_id.txt");
-            
-        // Intervalle minimum entre deux envois de télémétrie (7 jours par défaut)
-        private static readonly TimeSpan _minimumInterval = TimeSpan.FromDays(7);
         
         // Nombre maximal de tentatives en cas d'échec
         private const int _maxRetryAttempts = 3;
@@ -46,7 +37,7 @@ namespace VoltAir_Setup.Services
         }
 
         /// <summary>
-        /// Sends installation data to Supabase if enough time has passed since the last send
+        /// Sends installation data to Supabase
         /// </summary>
         public async Task SendInstallationDataAsync(string version)
         {
@@ -56,20 +47,14 @@ namespace VoltAir_Setup.Services
                 {
                     return;
                 }
-                
-                // Vérifier si nous devons envoyer des données maintenant
-                if (!ShouldSendTelemetry())
-                {
-                    Console.WriteLine("Skipping telemetry send - minimum interval not elapsed");
-                    return;
-                }
 
                 string installationId = GetOrCreateInstallationId();
+                string publicIp = await GetPublicIpAddressAsync();
                 
                 var installData = new
                 {
                     id = installationId,
-                    ip = GetIpAddress(),
+                    ip = publicIp,
                     version = version,
                     installation_date = DateTime.UtcNow.ToString("o"),
                     region = GetRegion(),
@@ -107,8 +92,6 @@ namespace VoltAir_Setup.Services
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine("Installation data sent successfully.");
-                        // Enregistrer le moment de l'envoi réussi
-                        SaveLastTelemetrySendTime();
                         return;
                     }
                     else
@@ -133,40 +116,6 @@ namespace VoltAir_Setup.Services
                         await Task.Delay(TimeSpan.FromSeconds(_retryDelaySeconds));
                     }
                 }
-            }
-        }
-        
-        /// <summary>
-        /// Détermine si nous devons envoyer des données de télémétrie maintenant
-        /// en fonction de la dernière fois qu'elles ont été envoyées
-        /// </summary>
-        private bool ShouldSendTelemetry()
-        {
-            return true;
-        }
-        
-        /// <summary>
-        /// Enregistre le moment actuel comme étant la dernière fois 
-        /// où les données de télémétrie ont été envoyées
-        /// </summary>
-        private void SaveLastTelemetrySendTime()
-        {
-            try
-            {
-                string directory = Path.GetDirectoryName(_telemetryFilePath);
-                
-                // Créer le répertoire si nécessaire
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-
-                // Enregistrer la date et l'heure actuelles
-                File.WriteAllText(_telemetryFilePath, DateTime.Now.ToString("o"));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error saving telemetry timing: {ex.Message}");
             }
         }
         
@@ -205,9 +154,31 @@ namespace VoltAir_Setup.Services
         }
 
         /// <summary>
-        /// Retrieves the IP address of the machine
+        /// Retrieves the public IP address of the machine
         /// </summary>
-        private static string GetIpAddress()
+        private static async Task<string> GetPublicIpAddressAsync()
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromSeconds(10);
+                    string response = await client.GetStringAsync("https://api.ipify.org");
+                    return response.Trim();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception occurred while getting public IP address: {ex.Message}");
+                // Fallback vers IP locale si l'IP publique n'est pas accessible
+                return GetLocalIpAddress();
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the local IP address as fallback
+        /// </summary>
+        private static string GetLocalIpAddress()
         {
             try
             {
@@ -229,7 +200,7 @@ namespace VoltAir_Setup.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception occurred while getting IP address: {ex.Message}");
+                Console.WriteLine($"Exception occurred while getting local IP address: {ex.Message}");
             }
 
             return "None";
