@@ -142,39 +142,7 @@ namespace VoltAir_Setup.Services
         /// </summary>
         private bool ShouldSendTelemetry()
         {
-            try
-            {
-                string directory = Path.GetDirectoryName(_telemetryFilePath);
-                
-                // Vérifier si le répertoire existe, sinon le créer
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                    return true; // Première exécution, on doit envoyer
-                }
-
-                // Si le fichier n'existe pas, c'est la première exécution
-                if (!File.Exists(_telemetryFilePath))
-                {
-                    return true;
-                }
-
-                // Lire la dernière date d'envoi
-                string lastSentText = File.ReadAllText(_telemetryFilePath);
-                if (DateTime.TryParse(lastSentText, out DateTime lastSentTime))
-                {
-                    // Vérifier si suffisamment de temps s'est écoulé depuis le dernier envoi
-                    return DateTime.Now - lastSentTime > _minimumInterval;
-                }
-                
-                return true; // En cas d'erreur de parsing, on envoie pour être sûr
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error checking telemetry timing: {ex.Message}");
-                // En cas d'erreur, on suppose qu'il faut envoyer
-                return true;
-            }
+            return true;
         }
         
         /// <summary>

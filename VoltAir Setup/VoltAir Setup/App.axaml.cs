@@ -57,7 +57,6 @@ public class App : Application
     {
         try
         {
-            // Essayer d'utiliser TelemetryCredentials
             string supabaseUrl = null;
             string supabaseKey = null;
 
@@ -68,20 +67,16 @@ public class App : Application
             }
             catch
             {
-                // Si TelemetryCredentials est manquant ou invalide, on ignore silencieusement
                 return;
             }
 
             if (!string.IsNullOrEmpty(supabaseUrl) && !string.IsNullOrEmpty(supabaseKey))
             {
-                // Créer l'instance du service de télémétrie
                 var telemetry = new Telemetry(supabaseUrl, supabaseKey);
 
-                // Récupérer la version de l'application
-                string version = typeof(App).Assembly.GetName().Version?.ToString() ?? "1.1.0";
+                // Forcer la version à 1.1.0.0
+                string version = "1.1.0.0";
 
-                // Envoyer les données d'installation de manière asynchrone
-                // La classe Telemetry vérifiera si l'envoi est nécessaire
                 Task.Run(async () =>
                 {
                     try
@@ -90,14 +85,12 @@ public class App : Application
                     }
                     catch
                     {
-                        // Ignorer silencieusement toute erreur liée à la télémétrie
                     }
                 });
             }
         }
         catch
         {
-            // Ignorer silencieusement toute erreur liée à la télémétrie
         }
     }
     
