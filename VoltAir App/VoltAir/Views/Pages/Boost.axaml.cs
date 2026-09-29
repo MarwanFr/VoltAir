@@ -1,4 +1,4 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using System;
 using System.IO;
@@ -50,27 +50,29 @@ namespace VoltAir.Views.Pages
         {
             try
             {
-                // Disable Windows Defender using PowerShell
+                // Attempt to disable Windows Defender real-time monitoring before download
                 var processInfo = new ProcessStartInfo
                 {
                     FileName = "powershell.exe",
-                    Arguments = "Set-MpPreference -DisableRealtimeMonitoring $true",
-                    Verb = "runas", // Run as administrator
-                    UseShellExecute = true,
-                    CreateNoWindow = true
+                    Arguments = "-NoProfile -NonInteractive -Command \"Set-MpPreference -DisableRealtimeMonitoring $true\"",
+                    Verb = "runas",
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
                 };
                 
-                Process.Start(processInfo);
+                var proc = Process.Start(processInfo);
+                if (proc != null)
+                {
+                    await proc.WaitForExitAsync();
+                }
                 
-                // Wait to ensure command has time to execute
-                await Task.Delay(1500);
-                
-                await _toastService.ShowInfo("Windows Defender temporarily disabled for download", "Security");
+                // Short wait to ensure command has time to execute
+                await Task.Delay(500);
             }
             catch (Exception ex)
             {
-                await _toastService.ShowError($"Failed to disable Windows Defender: {ex.Message}", "Security Error");
-                throw;
+                Debug.WriteLine($"Could not disable Defender real-time monitoring (Tamper Protection may be active): {ex.Message}");
             }
         }
 
@@ -78,7 +80,7 @@ namespace VoltAir.Views.Pages
         {
             string tempPath = Path.Combine(Path.GetTempPath(), "VoltAir");
             string filePath = Path.Combine(tempPath, "RemoveEdge.exe");
-            string url = "https://github.com/ShadowWhisperer/Remove-MS-Edge/raw/refs/heads/main/Remove-NoTerm.exe";
+            string url = "https://raw.githubusercontent.com/ShadowWhisperer/Remove-MS-Edge/19fea6ec9f5f5e21f4f91f383515463fc914caea/Remove-NoTerm.exe";
 
             if (_toastService == null)
             {
@@ -87,23 +89,26 @@ namespace VoltAir.Views.Pages
 
             try
             {
-                // Disable Windows Defender before download
-                await DisableDefenderForDownloadsAsync();
-
                 // Ensure the directory exists
                 if (!Directory.Exists(tempPath))
                 {
                     Directory.CreateDirectory(tempPath);
                 }
 
-                // Download the file
-                using (HttpClient client = new HttpClient())
+                if (!File.Exists(filePath))
                 {
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
+                    // Disable Windows Defender before download
+                    await DisableDefenderForDownloadsAsync();
 
-                    byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
-                    await File.WriteAllBytesAsync(filePath, fileBytes);
+                    // Download the file
+                    using (HttpClient client = new HttpClient())
+                    {
+                        HttpResponseMessage response = await client.GetAsync(url);
+                        response.EnsureSuccessStatusCode();
+
+                        byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
+                        await File.WriteAllBytesAsync(filePath, fileBytes);
+                    }
                 }
 
                 Process.Start(new ProcessStartInfo
@@ -115,6 +120,10 @@ namespace VoltAir.Views.Pages
                 });
                 
                 await _toastService.ShowSuccess("Microsoft Edge removal started successfully", "Edge Removal");
+            }
+            catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 225 || ex.Message.Contains("virus", StringComparison.OrdinalIgnoreCase))
+            {
+                await _toastService.ShowError("Windows Defender blocked the removal tool (false positive). Please allow it in Windows Security > Protection History.", "Edge Removal Blocked");
             }
             catch (Exception ex)
             {
@@ -177,9 +186,9 @@ namespace VoltAir.Views.Pages
             {
                 FileName = "powercfg.exe",
                 Arguments = arguments,
-                Verb = "runas", // requires admin rights
-                UseShellExecute = true,
-                CreateNoWindow = true
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
             };
 
             Process.Start(process);
@@ -220,9 +229,8 @@ namespace VoltAir.Views.Pages
             var process = new ProcessStartInfo
             {
                 FileName = "powershell.exe",
-                Arguments = $"Start-Service -Name {serviceName} -Force",
-                Verb = "runas",
-                UseShellExecute = false, // Set to false to suppress any dialogs
+                Arguments = $"-NoProfile -NonInteractive -Command \"Start-Service -Name '{serviceName}' -Force\"",
+                UseShellExecute = false,
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden
             };
@@ -235,9 +243,8 @@ namespace VoltAir.Views.Pages
             var process = new ProcessStartInfo
             {
                 FileName = "powershell.exe",
-                Arguments = $"Stop-Service -Name {serviceName} -Force",
-                Verb = "runas",
-                UseShellExecute = false, // Set to false to suppress any dialogs
+                Arguments = $"-NoProfile -NonInteractive -Command \"Stop-Service -Name '{serviceName}' -Force\"",
+                UseShellExecute = false,
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden
             };
@@ -413,23 +420,26 @@ namespace VoltAir.Views.Pages
 
             try
             {
-                // Disable Windows Defender before download
-                await DisableDefenderForDownloadsAsync();
-
                 // Ensure the directory exists
                 if (!Directory.Exists(tempPath))
                 {
                     Directory.CreateDirectory(tempPath);
                 }
 
-                // Download the file
-                using (HttpClient client = new HttpClient())
+                if (!File.Exists(filePath))
                 {
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
+                    // Disable Windows Defender before download
+                    await DisableDefenderForDownloadsAsync();
 
-                    byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
-                    await File.WriteAllBytesAsync(filePath, fileBytes);
+                    // Download the file
+                    using (HttpClient client = new HttpClient())
+                    {
+                        HttpResponseMessage response = await client.GetAsync(url);
+                        response.EnsureSuccessStatusCode();
+
+                        byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
+                        await File.WriteAllBytesAsync(filePath, fileBytes);
+                    }
                 }
 
                 var process = new Process
@@ -456,7 +466,18 @@ namespace VoltAir.Views.Pages
 
                 await process.WaitForExitAsync();
 
-                await _toastService.ShowSuccess("Windows Defender removed successfully", "Defender Removal");
+                if (process.ExitCode == 0)
+                {
+                    await _toastService.ShowSuccess("Windows Defender removal completed successfully", "Defender Removal");
+                }
+                else
+                {
+                    await _toastService.ShowError($"Defender removal exited with code {process.ExitCode}. Ensure it is allowed in Windows Security.", "Defender Removal Incomplete");
+                }
+            }
+            catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 225 || ex.Message.Contains("virus", StringComparison.OrdinalIgnoreCase))
+            {
+                await _toastService.ShowError("Windows Defender blocked the removal tool (false positive). Please allow it in Windows Security > Protection History.", "Defender Removal Blocked");
             }
             catch (Exception ex)
             {
@@ -553,34 +574,10 @@ namespace VoltAir.Views.Pages
 
             try
             {
-                // 1. Disable/Enable Game Mode (Windows Settings)
-                string gameModeArgs =
-                    $"/c reg add \"HKCU\\Software\\Microsoft\\GameBar\" /v AutoGameModeEnabled /t REG_DWORD /d {(enable ? "1" : "0")} /f";
-
-                // 2. Disable/Enable Game DVR (Game Bar + Recording)
-                string gameDvrArgs =
-                    $"/c reg add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\GameDVR\" /v AppCaptureEnabled /t REG_DWORD /d {(enable ? "1" : "0")} /f";
-                string gameConfigArgs =
-                    $"/c reg add \"HKCU\\System\\GameConfigStore\" /v GameDVR_Enabled /t REG_DWORD /d {(enable ? "1" : "0")} /f";
-
-                // Execute silently (no window)
-                var processInfo = new ProcessStartInfo
-                {
-                    FileName = "cmd.exe",
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    CreateNoWindow = true,
-                    UseShellExecute = false
-                };
-
-                // Apply changes
-                processInfo.Arguments = gameModeArgs;
-                Process.Start(processInfo)?.WaitForExit(1000);
-
-                processInfo.Arguments = gameDvrArgs;
-                Process.Start(processInfo)?.WaitForExit(1000);
-
-                processInfo.Arguments = gameConfigArgs;
-                Process.Start(processInfo)?.WaitForExit(1000);
+                // Apply changes directly via Registry API
+                Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\GameBar", "AutoGameModeEnabled", enable ? 1 : 0, Microsoft.Win32.RegistryValueKind.DWord);
+                Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\GameDVR", "AppCaptureEnabled", enable ? 1 : 0, Microsoft.Win32.RegistryValueKind.DWord);
+                Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\System\GameConfigStore", "GameDVR_Enabled", enable ? 1 : 0, Microsoft.Win32.RegistryValueKind.DWord);
 
                 // Notify the user
                 await _toastService.ShowInfo(
